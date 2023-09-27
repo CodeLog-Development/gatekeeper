@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "predeploy": ["nx lint api", "nx run api:build:production"],
+    "source": "dist/api",
+    "runtime": "nodejs20"
+  }
+}
