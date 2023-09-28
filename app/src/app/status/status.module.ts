@@ -8,4 +8,4 @@ import { StatusPageRoutingModule } from './status-routing.module';
   imports: [CommonModule, IonicModule, StatusPageRoutingModule],
   declarations: [StatusPage],
 })
-export class StatusPageModule {}
+export class StatusPageModule { }

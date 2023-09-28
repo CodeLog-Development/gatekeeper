@@ -6,15 +6,16 @@ import { TabsPage } from './tabs.page';
 
 import { TabsPageRoutingModule } from './tabs-routing.module';
 import { StatusPage } from '../status/status.page';
+import { StatusPageModule } from '../status/status.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    StatusPage,
+    StatusPageModule,
     FormsModule,
     IonicModule,
     TabsPageRoutingModule,
   ],
   declarations: [TabsPage],
 })
-export class TabsPageModule {}
+export class TabsPageModule { }
