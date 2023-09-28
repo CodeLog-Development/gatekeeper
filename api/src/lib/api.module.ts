@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
+import { ServerModule } from './server/server.module';
 
 @Module({
-  controllers: [],
   providers: [],
+  imports: [ServerModule],
   exports: [],
 })
-export class ApiModule {}
+export class ApiModule { }

@@ -1,0 +1,25 @@
+name: Build and test
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - run: yarn install
+
+      - run: yarn nx affected -t format:check
+      - run: yarn nx affected -t lint --parallel=3
+      - run: yarn nx affected -t test --parallel=3
+      - run: yarn nx affected -t build --parallel=3
