@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'status',
+  selector: 'gatekeeper-status',
   templateUrl: './status.page.html',
   styleUrls: ['./status.page.scss'],
 })
