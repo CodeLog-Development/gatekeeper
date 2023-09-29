@@ -11,11 +11,11 @@ export class ServerStatus implements ApiResponse {
 }
 
 export class ServerStartResponse implements ApiResponse {
-  constructor(public success: boolean, public message: string) {}
+  constructor(public success: boolean, public message: string) { }
 }
 
 export class ServerStopResponse implements ApiResponse {
-  constructor(public success: boolean, public message: string) {}
+  constructor(public success: boolean, public message: string) { }
 }
 
 @Injectable()

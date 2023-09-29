@@ -1,10 +1,14 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Server Status</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-card>
     <ion-card-header>
       <ion-card-title>Server Status</ion-card-title>
@@ -16,7 +20,11 @@
       <ion-chip color="danger" *ngIf="!serverStatus?.running">Stopped</ion-chip>
     </ion-card-content>
 
-    <ion-button [disabled]="serverStatus?.running || false" fill="clear">Start</ion-button>
-    <ion-button [disabled]="!serverStatus?.running" fill="clear">Stop</ion-button>
+    <ion-button [disabled]="serverStatus?.running || false" fill="clear">
+      Start
+    </ion-button>
+    <ion-button [disabled]="!serverStatus?.running" fill="clear" color="danger">
+      Stop
+    </ion-button>
   </ion-card>
 </ion-content>
