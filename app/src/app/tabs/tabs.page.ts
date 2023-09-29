@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['tabs.page.scss'],
 })
 export class TabsPage {
-  constructor() {}
+  constructor() { }
+
+  async startServer(): Promise<void> { }
 }
