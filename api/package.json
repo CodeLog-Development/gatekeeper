@@ -9,6 +9,9 @@
     "firebase-functions": "^4.4.1",
     "tslib": "^2.3.0"
   },
+  "scripts": {
+    "serve": "cd .. && yarn nx build api && yarn firebase serve"
+  },
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts"
