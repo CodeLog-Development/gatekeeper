@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ServerStatusService, ServerStatus } from './server.service';
 
 @Component({
   selector: 'gatekeeper-status',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./status.component.scss'],
 })
 export class StatusPageComponent implements OnInit {
+  serverStatus?: ServerStatus;
+  constructor(private statusService: ServerStatusService) {}
   ngOnInit(): void {
-    console.log(' 🚀 status.page.ts:10 ~ ngOnInit()');
+    this.statusService.getStatus().subscribe((data) => {
+      this.serverStatus = data;
+    });
   }
 }
