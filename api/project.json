@@ -48,12 +48,9 @@
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
+      "executor": "nx:run-script",
       "options": {
-        "buildTarget": "api:build"
-      },
-      "configurations": {
-        "production": {}
+        "script": "serve"
       }
     }
   },
