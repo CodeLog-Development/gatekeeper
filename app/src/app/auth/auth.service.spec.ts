@@ -11,7 +11,7 @@ describe('AuthService', () => {
   }));
 
   it('should be able to report the login status', async () => {
-    let isLoggedIn = await service.isLoggedIn();
+    const isLoggedIn = await service.isLoggedIn();
     expect(isLoggedIn).toBeDefined();
   });
 });
