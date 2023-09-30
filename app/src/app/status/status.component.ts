@@ -8,7 +8,7 @@ import { ServerStatusService, ServerStatus } from './server.service';
 })
 export class StatusPageComponent implements OnInit {
   serverStatus?: ServerStatus;
-  constructor(private statusService: ServerStatusService) {}
+  constructor(private statusService: ServerStatusService) { }
   ngOnInit(): void {
     this.statusService.getStatus().subscribe((data) => {
       this.serverStatus = data;
