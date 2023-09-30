@@ -15,7 +15,8 @@
         "packageJson": "api/package.json",
         "main": "api/src/index.ts",
         "assets": [
-          "api/*.md"
+          "api/*.md",
+          "api/firebase-service-account.json"
         ]
       }
     },
