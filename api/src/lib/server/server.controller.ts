@@ -1,10 +1,11 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ServerStatus, ServerService } from './server.service';
 import {
-  ServerStatus,
-  ServerService,
-  ServerStartResponse,
-  ServerStopResponse,
-} from './server.service';
+  StartInstanceRequest,
+  StartServerResponse,
+  StopServerRequest,
+  StopServerResponse,
+} from './server.interface';
 
 @Controller('server')
 export class ServerController {
@@ -16,12 +17,16 @@ export class ServerController {
   }
 
   @Post('start')
-  async startServer(): Promise<ServerStartResponse> {
-    return await this.serverService.startServer();
+  async startServer(
+    @Body() startRequest: StartInstanceRequest
+  ): Promise<StartServerResponse> {
+    return await this.serverService.startInstance(startRequest.instanceId);
   }
 
   @Post('stop')
-  async stopServer(): Promise<ServerStopResponse> {
-    return await this.serverService.stopServer();
+  async stopServer(
+    @Body() stopRequest: StopServerRequest
+  ): Promise<StopServerResponse> {
+    return await this.serverService.stopServer(stopRequest.instanceId);
   }
 }

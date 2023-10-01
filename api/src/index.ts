@@ -3,6 +3,7 @@ import * as express from 'express';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import * as functions from 'firebase-functions';
+export * from './lib/index';
 
 const expressServer = express();
 

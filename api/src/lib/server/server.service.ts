@@ -1,37 +1,75 @@
-import { Injectable } from '@nestjs/common';
-import { ApiResponse } from '../api.interface';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Ec2Service } from '../aws/ec2/ec2.service';
+import { ModuleRef } from '@nestjs/core';
+import { StartServerResponse, StopServerResponse } from './server.interface';
 
-export class ServerStatus implements ApiResponse {
+export interface ServerStatus {
   success: boolean;
   message: string;
-  constructor(public running: boolean) {
-    this.success = true;
-    this.message = 'Server is ' + running ? 'running' : 'not running';
-  }
-}
-
-export class ServerStartResponse implements ApiResponse {
-  constructor(public success: boolean, public message: string) {}
-}
-
-export class ServerStopResponse implements ApiResponse {
-  constructor(public success: boolean, public message: string) {}
+  running?: string[];
 }
 
 @Injectable()
-export class ServerService {
+export class ServerService implements OnModuleInit {
+  private ec2Service?: Ec2Service;
+  constructor(private moduleRef: ModuleRef) { }
+
+  onModuleInit() {
+    this.ec2Service = this.moduleRef.get(Ec2Service, { strict: false });
+  }
+
   async getServerStatus(): Promise<ServerStatus> {
-    // TODO: Get Server status
-    return new ServerStatus(false);
+    if (!this.ec2Service) {
+      return {
+        success: false,
+        message: "Couldn't communicate with amazon EC2",
+      };
+    }
+    const status = await this.ec2Service.getInstanceStatus();
+    const reservations = status.Reservations;
+    const running: string[] = [];
+    for (const i of reservations || []) {
+      i.Instances?.forEach((instance) => {
+        if (instance.State?.Name === 'running')
+          running.push(instance.InstanceId || '');
+      });
+    }
+    return {
+      success: true,
+      message: `Returned list of running instances`,
+      running,
+    };
   }
 
-  async startServer(): Promise<ServerStartResponse> {
-    // TODO: Start Server
-    return new ServerStartResponse(true, 'Server successfully started');
+  async startInstance(id: string): Promise<StartServerResponse> {
+    if (!this.ec2Service) {
+      return {
+        success: false,
+        message: "Couldn't communicate with EC2 service",
+      };
+    }
+
+    try {
+      await this.ec2Service.startInstance(id);
+      return { success: true, message: 'Instance started', started: [id] };
+    } catch (e) {
+      return { success: false, message: 'Failed to start instance' };
+    }
   }
 
-  async stopServer(): Promise<ServerStopResponse> {
-    // TODO: Stop server
-    return new ServerStopResponse(true, 'Server successfully stopped');
+  async stopServer(id: string): Promise<StopServerResponse> {
+    if (!this.ec2Service) {
+      return {
+        success: false,
+        message: "Could't communicate with EC2 service",
+      };
+    }
+
+    try {
+      await this.ec2Service.stopInstance(id);
+      return { success: true, message: 'Instance stopped', stopped: [id] };
+    } catch (e) {
+      return { success: false, message: 'Failed to stop instance' };
+    }
   }
 }

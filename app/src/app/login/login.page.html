@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>Login</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input fill="outline" color="success" label="Username" autocomplete="username"
+        style="--color: var(--ion-color-dark); margin-bottom: 10px" label-placement="floating"
+        (ionChange)="usernameChanged($event)"></ion-input>
+      <ion-input fill="outline" color="success" label="Password" type="password" autocomplete="current-password"
+        style="--color: var(--ion-color-dark)" label-placement="floating"
+        (ionChange)="usernameChanged($event)"></ion-input>
+    </ion-card-content>
+
+    <div id="buttonContainer">
+      <ion-button fill="clear" (click)="loginSubmit()">Login</ion-button>
+      <ion-button fill="clear">Register</ion-button>
+    </div>
+  </ion-card>
+</ion-content>
