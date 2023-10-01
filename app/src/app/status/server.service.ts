@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  StartServerResponse,
-  StopServerResponse,
-} from '../../../../api/src/lib/server/server.interface';
+import { StartServerResponse, StopServerResponse } from '@gatekeeper/api';
 
 export interface ServerStatus {
   success: boolean;

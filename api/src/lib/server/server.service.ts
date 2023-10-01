@@ -1,5 +1,4 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { ApiResponse } from '../api.interface';
 import { Ec2Service } from '../aws/ec2/ec2.service';
 import { ModuleRef } from '@nestjs/core';
 import { StartServerResponse, StopServerResponse } from './server.interface';
@@ -29,7 +28,7 @@ export class ServerService implements OnModuleInit {
     const status = await this.ec2Service.getInstanceStatus();
     const reservations = status.Reservations;
     const running: string[] = [];
-    for (let i of reservations || []) {
+    for (const i of reservations || []) {
       i.Instances?.forEach((instance) => {
         if (instance.State?.Name === 'running')
           running.push(instance.InstanceId || '');
