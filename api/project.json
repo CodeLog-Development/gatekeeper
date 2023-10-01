@@ -16,7 +16,12 @@
         "main": "api/src/index.ts",
         "assets": [
           "api/*.md",
-          "api/firebase-service-account.json"
+          "api/.env.*",
+          {
+            "glob": "firebase-service-account.json",
+            "input": "api",
+            "output": "."
+          }
         ]
       }
     },

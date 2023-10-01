@@ -16,14 +16,12 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-chip color="success" *ngIf="serverStatus?.running">Running</ion-chip>
-      <ion-chip color="danger" *ngIf="!serverStatus?.running">Stopped</ion-chip>
+      <ion-chip color="success" *ngIf="isRunning()">Running</ion-chip>
+      <ion-chip color="danger" *ngIf="!isRunning()">Stopped</ion-chip>
     </ion-card-content>
 
-    <ion-button [disabled]="serverStatus?.running || false" fill="clear">
-      Start
-    </ion-button>
-    <ion-button [disabled]="!serverStatus?.running" fill="clear" color="danger">
+    <ion-button [disabled]="isRunning()" fill="clear" (click)="startServerClick($event)">Start</ion-button>
+    <ion-button [disabled]="!isRunning()" fill="clear" color="danger" (click)="stopServerClick($event)">
       Stop
     </ion-button>
   </ion-card>
