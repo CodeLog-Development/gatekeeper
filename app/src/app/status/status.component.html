@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
