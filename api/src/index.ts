@@ -20,6 +20,7 @@ const createFunction = async (
         origin: [
           'https://codelog-mc.web.app',
           'https://us-central1-codelog-mc.cloudfunctions.net',
+          'http://localhost',
         ],
         methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
         credentials: true,

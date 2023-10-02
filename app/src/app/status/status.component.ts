@@ -3,7 +3,9 @@ import { ServerStatusService, ServerStatus } from './server.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { catchError, map, of, retry } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { RefresherCustomEvent, RefresherEventDetail } from '@ionic/angular';
+import { Server } from 'http';
 
 @Component({
   selector: 'gatekeeper-status',
@@ -28,26 +30,36 @@ export class StatusPageComponent implements OnInit {
     this.isToastOpen = state;
   }
 
-  ngOnInit(): void {
+  refresh(event: Event | undefined) {
+    const customEvent = event as RefresherCustomEvent;
     this.statusService
       .getStatus()
       .pipe(
         retry(3),
-        catchError((err: HttpErrorResponse) => {
+        catchError((err) => {
+          customEvent.target.complete();
           if (err.status === 401) {
             this.authService.setLoggedIn(false);
             this.router.navigateByUrl('/login');
           }
           return of(undefined);
         }),
-        map((result) => {
+        map((result: HttpResponse<ServerStatus> | undefined) => {
           return result?.body;
         })
       )
       .subscribe((data) => {
         console.log('🚀 ~ status.component.ts:14', data);
         this.serverStatus = data || undefined;
+
+        if (customEvent !== undefined) {
+          customEvent.target.complete();
+        }
       });
+  }
+
+  ngOnInit(): void {
+    this.refresh(undefined);
   }
 
   isRunning(): boolean {
