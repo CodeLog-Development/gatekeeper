@@ -51,7 +51,7 @@
     "@angular-eslint/template-parser": "~16.2.0",
     "@angular/cli": "~16.2.0",
     "@angular/compiler-cli": "~16.2.0",
-    "@angular/language-service": "~16.2.0",
+    "@angular/language-service": "~16.2.7",
     "@capacitor/android": "^3.2.5",
     "@capacitor/cli": "^3.2.5",
     "@capacitor/ios": "^3.2.5",
