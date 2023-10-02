@@ -1,9 +1,34 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ServerModule } from './server/server.module';
+import { FirebaseModule } from './firebase/firebase.module';
+import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
+import { AwsModule } from './aws/aws.module';
+import { LoggerMiddleware } from './logger/logger.middleware';
 
 @Module({
-  providers: [],
-  imports: [ServerModule],
-  exports: [],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+      envFilePath: ['.env.production'],
+    }),
+    ServerModule,
+    FirebaseModule,
+    AwsModule,
+    UserModule,
+  ],
 })
-export class ApiModule { }
+export class ApiModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

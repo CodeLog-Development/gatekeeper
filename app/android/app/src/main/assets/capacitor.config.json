@@ -1,0 +1,6 @@
+{
+	"appId": "com.codelog.gatekeeper",
+	"appName": "Gatekeeper",
+	"webDir": "../dist/app",
+	"bundledWebRuntime": false
+}

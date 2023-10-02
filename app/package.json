@@ -2,5 +2,12 @@
   "name": "app",
   "devDependencies": {
     "@capacitor/cli": "^3.2.5"
+  },
+  "dependencies": {
+    "@nx/devkit": "^16.9.1",
+    "@nxtend/capacitor": "13.0.0",
+    "ionic": "^5.4.16",
+    "nx": "^16.9.1",
+    "rxjs": "^7.8.1"
   }
 }

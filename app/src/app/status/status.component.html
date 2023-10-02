@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Server Status</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Server Status</ion-card-title>
+      <ion-card-subtitle>Ultimate Reloaded</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-chip color="success" *ngIf="isRunning()">Running</ion-chip>
+      <ion-chip color="danger" *ngIf="!isRunning()">Stopped</ion-chip>
+    </ion-card-content>
+
+    <ion-button [disabled]="isRunning()" fill="clear" (click)="startServerClick($event)">Start</ion-button>
+    <ion-button [disabled]="!isRunning()" fill="clear" color="danger" (click)="stopServerClick($event)">
+      Stop
+    </ion-button>
+  </ion-card>
+
+  <ion-toast color="danger" [isOpen]="isToastOpen" [message]="toastMessage" [duration]="5000"
+    (didDismiss)="setToastOpen(false)"></ion-toast>
+</ion-content>

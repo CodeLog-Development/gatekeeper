@@ -1,19 +1,13 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Blank </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-tabs>
+  <ion-tab-bar slot="bottom" color="primary">
+    <ion-tab-button tab="status">
+      <ion-icon name="play-circle"></ion-icon>
+      Server Status
+    </ion-tab-button>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="status"><ion-icon name="play-circle"></ion-icon></ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
-</ion-content>
+    <ion-tab-button tab="profile">
+      <ion-icon name="people"></ion-icon>
+      Profile
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

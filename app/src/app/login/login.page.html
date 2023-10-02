@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>Login</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input fill="outline" color="success" label="Username" autocomplete="username"
+        style="--color: var(--ion-color-dark); margin-bottom: 10px" label-placement="floating"
+        (ionChange)="usernameChanged($event)"></ion-input>
+      <ion-input fill="outline" color="success" label="Password" type="password" autocomplete="current-password"
+        style="--color: var(--ion-color-dark)" label-placement="floating"
+        (ionChange)="passwordChanged($event)"></ion-input>
+    </ion-card-content>
+
+    <div id="buttonContainer">
+      <ion-button fill="clear" (click)="loginSubmit()">Login</ion-button>
+      <ion-button fill="clear" (click)="setModalOpen(true)">Register</ion-button>
+    </div>
+  </ion-card>
+  <ion-toast color="danger" [isOpen]="isToastOpen" [message]="toastMessage" [duration]="5000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="tertiary">
+          <ion-title>Register</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setModalOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-card color="light">
+          <ion-card-header>
+            <ion-card-title>Register</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-input fill="outline" color="success" label="Username" autocomplete="username"
+              style="--color: var(--ion-color-dark); margin-bottom: 10px" label-placement="floating"
+              (ionChange)="usernameChanged($event)"></ion-input>
+            <ion-input fill="outline" color="success" label="Email" autocomplete="email"
+              style="--color: var(--ion-color-dark); margin-bottom: 10px" label-placement="floating"
+              (ionChange)="emailChanged($event)"></ion-input>
+            <ion-input fill="outline" color="success" label="Password" type="password" autocomplete="current-password"
+              style="--color: var(--ion-color-dark)" label-placement="floating"
+              (ionChange)="passwordChanged($event)"></ion-input>
+          </ion-card-content>
+
+          <div id="buttonContainer">
+            <ion-button fill="clear" (click)="registerSubmit()">Submit</ion-button>
+          </div>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

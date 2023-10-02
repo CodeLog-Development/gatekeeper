@@ -15,7 +15,13 @@
         "packageJson": "api/package.json",
         "main": "api/src/index.ts",
         "assets": [
-          "api/*.md"
+          "api/*.md",
+          "api/.env.*",
+          {
+            "glob": "firebase-service-account.json",
+            "input": "api",
+            "output": "."
+          }
         ]
       }
     },
@@ -48,12 +54,9 @@
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
+      "executor": "nx:run-script",
       "options": {
-        "buildTarget": "api:build"
-      },
-      "configurations": {
-        "production": {}
+        "script": "serve"
       }
     }
   },

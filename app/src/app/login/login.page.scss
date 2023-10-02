@@ -1,0 +1,9 @@
+#buttonContainer {
+  width: 100%;
+  display: flex;
+  place-content: center;
+}
+
+#buttonContainer * {
+  width: 100%;
+}
