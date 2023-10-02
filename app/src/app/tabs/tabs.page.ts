@@ -15,7 +15,7 @@ export class TabsPage implements OnInit {
       if (!this.authService.isLoggedIn()) {
         this.router.navigate(['../login']);
       }
-    }, 2000);
+    });
   }
 
   async startServer(): Promise<void> { }

@@ -60,8 +60,8 @@
           "namedChunks": true,
           "fileReplacements": [
             {
-              "replace": "src/app/environments/environment.ts",
-              "with": "src/app/environments/environment.development.ts"
+              "replace": "app/src/environments/environment.ts",
+              "with": "app/src/environments/environment.development.ts"
             }
           ]
         }

@@ -9,7 +9,7 @@ export const EMAIL_REGEX =
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Post()
   async createUser(
@@ -47,7 +47,7 @@ export class UserController {
           path: '/',
           secure: true,
           expires: new Date(result.expires),
-          httpOnly: true,
+          httpOnly: false,
           sameSite: 'none',
         });
         return { success: true, message: 'User registered' };
@@ -92,7 +92,7 @@ export class UserController {
       path: '/',
       secure: true,
       expires: new Date(result.expires),
-      httpOnly: true,
+      httpOnly: false,
       sameSite: 'none',
     });
 
