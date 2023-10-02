@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiResponse } from '@gatekeeper/api';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -19,10 +20,16 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<ApiResponse> {
-    const observable = this.http.post<ApiResponse>('/api/user/login', {
-      username,
-      password,
-    });
+    const observable = this.http.post<ApiResponse>(
+      `${environment.apiUrl}/user/login`,
+      {
+        username,
+        password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
 
     return observable;
   }
