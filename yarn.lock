@@ -3209,7 +3209,7 @@
     "@nx/angular" "16.9.1"
     tslib "^2.3.0"
 
-"@nrwl/cli@*", "@nrwl/cli@15.9.3":
+"@nrwl/cli@*", "@nrwl/cli@15.9.3", "@nrwl/cli@^15.9.3":
   version "15.9.3"
   resolved "https://registry.yarnpkg.com/@nrwl/cli/-/cli-15.9.3.tgz#5946ee84953fd9e67708fd39049f0f5f328ede14"
   integrity sha512-qiAKHkov3iBx6hroPTitUrkRSUZFQqVgNJiF9gXRFC6pNJe9RS4rlmcIaoUFOboi9CnH5jwblNJVcz8YSVYOvA==
@@ -3223,7 +3223,7 @@
   dependencies:
     "@nx/cypress" "16.9.1"
 
-"@nrwl/devkit@16.9.1":
+"@nrwl/devkit@16.9.1", "@nrwl/devkit@^16.9.1":
   version "16.9.1"
   resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-16.9.1.tgz#e8b42ac23926a241338b173f3eed66757d75e530"
   integrity sha512-+iR7tg+LOrGWAGmGv0hr45hYUOeKjK/Jm6WV3Ldmx6I7LaaYM5Fu6Ev2KXL669QMzLJpg3kqgKQsneWbFT3MAw==
@@ -3695,7 +3695,7 @@
     tslib "^2.3.0"
     yargs-parser "21.1.1"
 
-"@nxtend/capacitor@13.0.0":
+"@nxtend/capacitor@^13.0.0":
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/@nxtend/capacitor/-/capacitor-13.0.0.tgz#614be64288a9e557e7f0ed4babfb94472148721d"
   integrity sha512-Zax6HgLtIcdZ7WBbMKLuog0rjDRf/ZVtnmVSlUloVOejGuf4BBVfG35EQ/ccW6xb9ey7N1royTVxLmNwrdLHVw==
@@ -11414,7 +11414,7 @@ nwsapi@^2.2.0, nwsapi@^2.2.2:
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.7.tgz#738e0707d3128cb750dddcfe90e4610482df0f30"
   integrity sha512-ub5E4+FBPKwAZx0UwIQOjYWGHTEq5sPqHQNRN8Z9e4A7u3Tj1weLJsL59yH9vmvqEtBHaOmT6cYQKIZOxp35FQ==
 
-nx-cloud@16.4.0, nx-cloud@latest:
+nx-cloud@16.4.0:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/nx-cloud/-/nx-cloud-16.4.0.tgz#c1bb6b72fff54a7f45c1d1ac2a17d5bfae99bac9"
   integrity sha512-jbq4hWvDwRlJVpxgMgbmNSkue+6XZSn53R6Vo6qmCAWODJ9KY1BZdZ/9VRL8IX/BRKebVFiXp3SapFB1qPhH8A==
@@ -11488,7 +11488,7 @@ nx@15.9.3:
     "@nrwl/nx-win32-arm64-msvc" "15.9.3"
     "@nrwl/nx-win32-x64-msvc" "15.9.3"
 
-nx@16.9.1:
+nx@16.9.1, nx@^16.9.1:
   version "16.9.1"
   resolved "https://registry.yarnpkg.com/nx/-/nx-16.9.1.tgz#eac231c4cdfd6b3f7088d57289e215fbd539b7a1"
   integrity sha512-h6jp0fXzEsBO3pwCNS2JbfzJZRgE2DnIo7Sj1/1oBo82o44jNqsPo3nMTj95qhcveJ0qBiKIh+Xw/fghXiRiSQ==
