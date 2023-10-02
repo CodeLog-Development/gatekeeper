@@ -2645,12 +2645,12 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@ionic/angular@7.4.1":
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/@ionic/angular/-/angular-7.4.1.tgz#850910cf97290486bf74d58bd5cbb8c3feb8bdbe"
-  integrity sha512-NKqbO7MHczMEVYsTzyeWiAoVCjfTuSN/MWFQ1y1RcN+b/TH03mtqd7T8h4c/MDmPq5RUQAOWMTTUAnWbv57ajw==
+"@ionic/angular@7.4.2":
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/@ionic/angular/-/angular-7.4.2.tgz#03748f39d3175e710c6252f30ac1f0db01e27352"
+  integrity sha512-ItdIMEm3DMCMk9lOMC++b9mH+tmGk3HpaVgfw2SNynufmhSn29zWNkvMlJ6/w3D6fSwAhelhg0emTJi4sqshiQ==
   dependencies:
-    "@ionic/core" "7.4.1"
+    "@ionic/core" "7.4.2"
     ionicons "^7.0.0"
     jsonc-parser "^3.0.0"
     tslib "^2.3.0"
@@ -2664,10 +2664,10 @@
     debug "^4.0.0"
     tslib "^2.0.1"
 
-"@ionic/core@7.4.1":
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-7.4.1.tgz#35ba5fdc0edd19ef5cd9c65a795caf7807f2a904"
-  integrity sha512-ZM18jm8nvyw7HAWhLYmJ9HABqtvzw9tIn2/Oq70XBMkayO9f3LzrgHvRoOqIAMS00QYuAZw+5XhpGAvcqh/sqA==
+"@ionic/core@7.4.2":
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-7.4.2.tgz#318f81575073f88833dae19f0dda278f712a3a73"
+  integrity sha512-ePuP+SxS6HY/nos267dBdAvL0kth1FYUWs8Y+DSM+FFTeRdEbvOsa2JeQCY7gCt/Ep9e7lSND95qfkX23pGNDA==
   dependencies:
     "@stencil/core" "^4.3.0"
     ionicons "7.1.0"
