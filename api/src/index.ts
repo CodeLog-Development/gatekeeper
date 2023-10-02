@@ -14,7 +14,17 @@ const createFunction = async (
 ): Promise<void> => {
   const app = await NestFactory.create(
     ApiModule,
-    new ExpressAdapter(expressInstance)
+    new ExpressAdapter(expressInstance),
+    {
+      cors: {
+        origin: [
+          'https://codelog-mc.web.app',
+          'https://us-central1-codelog-mc.cloudfunctions.net',
+        ],
+        methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+        credentials: true,
+      },
+    }
   );
   app.use(cookieParser());
   await app.init();

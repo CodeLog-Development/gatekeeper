@@ -47,8 +47,8 @@ export class UserController {
           path: '/',
           secure: true,
           expires: new Date(result.expires),
-          httpOnly: true,
-          sameSite: 'strict',
+          httpOnly: false,
+          sameSite: 'none',
         });
         return { success: true, message: 'User registered' };
       } else {
@@ -92,8 +92,8 @@ export class UserController {
       path: '/',
       secure: true,
       expires: new Date(result.expires),
-      httpOnly: true,
-      sameSite: 'strict',
+      httpOnly: false,
+      sameSite: 'none',
     });
 
     return {

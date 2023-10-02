@@ -5,7 +5,9 @@ import {
   LoadingController,
   InputChangeEventDetail,
   InputCustomEvent,
+  AlertController,
 } from '@ionic/angular';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'gatekeeper-login',
@@ -15,18 +17,23 @@ import {
 export class LoginPage {
   private username: string;
   private password: string;
+  private email: string;
   isToastOpen: boolean;
   toastMessage: string;
+  isModalOpen: boolean;
 
   constructor(
     private loadingCtrl: LoadingController,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {
     this.username = '';
     this.password = '';
+    this.email = '';
     this.isToastOpen = false;
     this.toastMessage = '';
+    this.isModalOpen = false;
   }
   usernameChanged(event: Event) {
     const customEvent = event as InputCustomEvent<InputChangeEventDetail>;
@@ -35,6 +42,11 @@ export class LoginPage {
       customEvent.detail.value
     );
     this.username = customEvent.detail.value || '';
+  }
+
+  emailChanged(event: Event) {
+    const customEvent = event as InputCustomEvent<InputChangeEventDetail>;
+    this.email = customEvent.detail.value || '';
   }
 
   passwordChanged(event: Event) {
@@ -60,6 +72,34 @@ export class LoginPage {
         this.toastMessage = data.message || 'An unkown error occurred';
       }
     });
+  }
+
+  registerSubmit() {
+    this.authService
+      .register(this.username, this.email, this.password)
+      .pipe(
+        catchError(() => {
+          return of(undefined);
+        })
+      )
+      .subscribe((data) => {
+        if (data?.success || false) {
+          this.alertController
+            .create({
+              message: 'User registered',
+            })
+            .then(() => {
+              this.setModalOpen(false);
+            });
+        } else {
+          this.toastMessage = data?.message || 'An unkown error occurred';
+          this.setOpen(true);
+        }
+      });
+  }
+
+  setModalOpen(state: boolean) {
+    this.isModalOpen = state;
   }
 
   setOpen(state: boolean) {
