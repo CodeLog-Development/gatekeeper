@@ -1,9 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ApiResponse } from '@gatekeeper/api';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
   private loggedIn: boolean;
-  constructor() {
+  constructor(private http: HttpClient) {
     this.loggedIn = false;
   }
 
@@ -11,8 +14,16 @@ export class AuthService {
     return this.loggedIn;
   }
 
-  async login(): Promise<boolean> {
-    this.loggedIn = true;
-    return true;
+  setLoggedIn(state: boolean) {
+    this.loggedIn = state;
+  }
+
+  login(username: string, password: string): Observable<ApiResponse> {
+    const observable = this.http.post<ApiResponse>('/api/user/login', {
+      username,
+      password,
+    });
+
+    return observable;
   }
 }

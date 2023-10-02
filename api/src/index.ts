@@ -3,6 +3,8 @@ import * as express from 'express';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import * as functions from 'firebase-functions';
+import * as cookieParser from 'cookie-parser';
+
 export * from './lib/index';
 
 const expressServer = express();
@@ -14,6 +16,7 @@ const createFunction = async (
     ApiModule,
     new ExpressAdapter(expressInstance)
   );
+  app.use(cookieParser());
   await app.init();
 };
 

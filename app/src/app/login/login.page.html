@@ -15,7 +15,7 @@
         (ionChange)="usernameChanged($event)"></ion-input>
       <ion-input fill="outline" color="success" label="Password" type="password" autocomplete="current-password"
         style="--color: var(--ion-color-dark)" label-placement="floating"
-        (ionChange)="usernameChanged($event)"></ion-input>
+        (ionChange)="passwordChanged($event)"></ion-input>
     </ion-card-content>
 
     <div id="buttonContainer">
@@ -23,4 +23,6 @@
       <ion-button fill="clear">Register</ion-button>
     </div>
   </ion-card>
+  <ion-toast color="danger" [isOpen]="isToastOpen" [message]="toastMessage" [duration]="5000"
+    (didDismiss)="setOpen(false)"></ion-toast>
 </ion-content>
