@@ -10,6 +10,7 @@ export interface User {
   username: string;
   email: string;
   passwordHash: string;
+  verified: boolean;
 }
 
 export interface AuthRequest {

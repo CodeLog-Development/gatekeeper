@@ -11,9 +11,11 @@ export class TabsPage implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
-    if (!(await this.authService.isLoggedIn())) {
-      this.router.navigate(['../login']);
-    }
+    setTimeout(() => {
+      if (!this.authService.isLoggedIn()) {
+        this.router.navigate(['../login']);
+      }
+    }, 2000);
   }
 
   async startServer(): Promise<void> { }
