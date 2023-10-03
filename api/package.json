@@ -16,7 +16,8 @@
     "tslib": "^2.3.0"
   },
   "scripts": {
-    "serve": "cd .. && yarn nx build api && yarn firebase serve"
+    "serve": "cd .. && yarn nx build api && yarn firebase serve",
+    "emulators": "cd .. && yarn firebase emulators:start"
   },
   "type": "commonjs",
   "main": "./src/index.js",
