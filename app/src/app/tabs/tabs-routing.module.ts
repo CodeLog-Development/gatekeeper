@@ -12,6 +12,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('../status/status.module').then((m) => m.StatusPageModule),
       },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('../profile/profile.module').then((m) => m.ProfilePageModule),
+      },
     ],
   },
 ];
