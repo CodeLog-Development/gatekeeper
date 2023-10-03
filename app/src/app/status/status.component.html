@@ -17,7 +17,7 @@
 
     <ion-card-content>
       <ion-chip (click)="setPopoverOpen(true)" color="success" *ngIf="isRunning()">Running</ion-chip>
-      <ion-chip (click)="setPopoverOpen(true)" color="danger" *ngIf="!isRunning()">Stopped</ion-chip>
+      <ion-chip disabled="true" color="danger" *ngIf="!isRunning()">Stopped</ion-chip>
     </ion-card-content>
 
     <ion-button [disabled]="isRunning()" fill="clear" (click)="startServerClick($event)">Start</ion-button>

@@ -39,6 +39,7 @@ export class StatusPageComponent implements OnInit {
   }
 
   refresh(event: Event | undefined) {
+    this.playerList = undefined;
     const customEvent: RefresherCustomEvent | undefined = event as
       | RefresherCustomEvent
       | undefined;
