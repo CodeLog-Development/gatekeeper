@@ -58,6 +58,12 @@
       "options": {
         "script": "serve"
       }
+    },
+    "emulators": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "emulators"
+      }
     }
   },
   "tags": []
