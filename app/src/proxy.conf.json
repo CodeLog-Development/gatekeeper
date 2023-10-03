@@ -3,7 +3,7 @@
     "target": "http://localhost:5001",
     "secure": false,
     "pathRewrite": {
-      "^/api": "/codelog-mc/us-central1/api"
+      "^/api": "/codelog-mc/europe-west2/api"
     }
   }
 }
