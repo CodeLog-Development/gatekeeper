@@ -39,11 +39,11 @@
             </ion-text>
           </ion-label>
         </ion-list-header>
-        <ion-item expand="true">
+        <ion-item *ngFor="let player of playerList?.list" expand="true">
           <ion-icon slot="start" name="checkmark-circle-outline" color="success"></ion-icon>
           <ion-text>
             <p style="font-family: monospace; text-wrap: nowrap; font-size: 16px">
-              -=JoeAverage=-
+              {{ player.name }}
             </p>
           </ion-text>
         </ion-item>

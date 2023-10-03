@@ -5,6 +5,7 @@ import { AuthService } from '../auth/auth.service';
 import { catchError, map, of, retry } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { RefresherCustomEvent } from '@ionic/angular';
+import { McStatusService, PlayerList } from './mc-status.service';
 
 @Component({
   selector: 'gatekeeper-status',
@@ -16,11 +17,13 @@ export class StatusPageComponent implements OnInit {
   isToastOpen: boolean;
   toastMessage: string;
   isPopoverOpen: boolean;
+  playerList?: PlayerList;
 
   constructor(
     private statusService: ServerStatusService,
     private authService: AuthService,
     private router: Router,
+    private mcService: McStatusService,
   ) {
     this.isToastOpen = false;
     this.toastMessage = '';
@@ -64,6 +67,11 @@ export class StatusPageComponent implements OnInit {
           customEvent.target.complete();
         }
       });
+
+    this.mcService.getPlayers('gcpmc.codelog.co.za').subscribe((data) => {
+      console.log(' 🚀 ~ status.component.ts:72 → playerList', data);
+      this.playerList = data;
+    });
   }
 
   ngOnInit(): void {
