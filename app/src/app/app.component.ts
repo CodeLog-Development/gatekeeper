@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NotificationService } from './notification.service';
 
 @Component({
   selector: 'root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() { }
+  constructor(private notificationService: NotificationService) {
+    console.log(
+      ' 🚀 ~ app.component.ts:11 → Notification service',
+      this.notificationService,
+    );
+  }
 }
