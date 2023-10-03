@@ -5,6 +5,11 @@ const config: CapacitorConfig = {
   appName: 'Gatekeeper',
   webDir: '../dist/app',
   bundledWebRuntime: false,
+  plugins: {
+    PushNotifications: {
+      presentationOptions: ['badge', 'sound', 'alert'],
+    },
+  },
 };
 
 export default config;

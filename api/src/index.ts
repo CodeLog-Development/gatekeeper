@@ -17,11 +17,7 @@ const createFunction = async (
     new ExpressAdapter(expressInstance),
     {
       cors: {
-        origin: [
-          'https://codelog-mc.web.app',
-          'https://us-central1-codelog-mc.cloudfunctions.net',
-          'http://localhost',
-        ],
+        origin: true,
         methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
         credentials: true,
       },
@@ -31,7 +27,9 @@ const createFunction = async (
   await app.init();
 };
 
-export const api = functions.https.onRequest(async (request, response) => {
+export const api = new functions.FunctionBuilder({
+  regions: ['europe-west2'],
+}).https.onRequest(async (request, response) => {
   await createFunction(expressServer);
   expressServer(request, response);
 });

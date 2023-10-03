@@ -16,8 +16,8 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-chip color="success" *ngIf="isRunning()">Running</ion-chip>
-      <ion-chip color="danger" *ngIf="!isRunning()">Stopped</ion-chip>
+      <ion-chip (click)="setPopoverOpen(true)" color="success" *ngIf="isRunning()">Running</ion-chip>
+      <ion-chip disabled="true" color="danger" *ngIf="!isRunning()">Stopped</ion-chip>
     </ion-card-content>
 
     <ion-button [disabled]="isRunning()" fill="clear" (click)="startServerClick($event)">Start</ion-button>
@@ -28,4 +28,26 @@
 
   <ion-toast color="danger" [isOpen]="isToastOpen" [message]="toastMessage" [duration]="5000"
     (didDismiss)="setToastOpen(false)"></ion-toast>
+
+  <ion-popover [isOpen]="isPopoverOpen" (didDismiss)="setPopoverOpen(false)">
+    <ng-template>
+      <ion-list>
+        <ion-list-header>
+          <ion-label style="text-align: center">
+            <ion-text>
+              <h1 style="font-weight: bold; font-size: 18px">Online Players</h1>
+            </ion-text>
+          </ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let player of playerList?.list" expand="true">
+          <ion-icon slot="start" name="checkmark-circle-outline" color="success"></ion-icon>
+          <ion-text>
+            <p style="font-family: monospace; text-wrap: nowrap; font-size: 16px">
+              {{ player.name }}
+            </p>
+          </ion-text>
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
 </ion-content>
