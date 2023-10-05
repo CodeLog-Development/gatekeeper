@@ -150,11 +150,13 @@ export class UserService implements OnModuleInit {
 
   async checkCookie(secret: string): Promise<User | undefined> {
     if (!this.firebaseService) {
+      console.error('  ~ user.service.ts:153 → No firebase service present');
       return undefined;
     }
 
     const firestore = this.firebaseService.getFirestore();
     if (!firestore) {
+      console.error('  ~ user.service.ts:153 → No firestore present');
       return undefined;
     }
 
@@ -170,6 +172,10 @@ export class UserService implements OnModuleInit {
 
     const cookie = query.docs[0].data() as Cookie;
     const user: User | undefined = (await cookie.userRef.get()).data() as User;
+    console.log(
+      ' 🚀 ~ user.service.ts:175 → User associated with cookie: ',
+      user,
+    );
     if (!user.verified) {
       return undefined;
     }

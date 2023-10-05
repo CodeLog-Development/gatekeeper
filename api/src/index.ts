@@ -10,7 +10,7 @@ export * from './lib/index';
 const expressServer = express();
 
 const createFunction = async (
-  expressInstance: express.Express
+  expressInstance: express.Express,
 ): Promise<void> => {
   const app = await NestFactory.create(
     ApiModule,
@@ -18,10 +18,10 @@ const createFunction = async (
     {
       cors: {
         origin: true,
-        methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+        methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE', 'PATCH'],
         credentials: true,
       },
-    }
+    },
   );
   app.use(cookieParser());
   await app.init();

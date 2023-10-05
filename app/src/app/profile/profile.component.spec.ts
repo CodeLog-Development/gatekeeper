@@ -3,11 +3,12 @@ import { ProfilePageComponent } from './profile.component';
 import { ProfileService } from './profile.service';
 import { AuthService } from '../auth/auth.service';
 import { IonicModule } from '@ionic/angular';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ProfilePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule],
+      imports: [IonicModule, HttpClientModule],
       declarations: [ProfilePageComponent],
       providers: [ProfileService, AuthService],
     }).compileComponents();

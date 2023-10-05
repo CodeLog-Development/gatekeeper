@@ -17,8 +17,8 @@ export class ChangePasswordComponent {
   currentPassword: string;
   newPassword: string;
   confirm: string;
-  toastMessage: string = '';
-  isToastOpen: boolean = false;
+  toastMessage: string;
+  isToastOpen: boolean;
 
   constructor(
     private profileService: ProfileService,
@@ -28,6 +28,8 @@ export class ChangePasswordComponent {
     this.currentPassword = '';
     this.newPassword = '';
     this.confirm = '';
+    this.toastMessage = '';
+    this.isToastOpen = false;
   }
 
   currentPasswordChange(event: Event) {

@@ -4,8 +4,8 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiResponse } from '@gatekeeper/api';
-import { Observable, catchError, map } from 'rxjs';
+import { ApiResponse, UserInfoResponse } from '@gatekeeper/api';
+import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -14,13 +14,65 @@ export class AuthService {
   private currentUser?: string;
   constructor(private http: HttpClient) {
     this.loggedIn = true;
+    this.http
+      .get<UserInfoResponse>(`${environment.apiUrl}/user/info`, {
+        withCredentials: true,
+        observe: 'response',
+      })
+      .pipe(
+        catchError((_err: HttpErrorResponse) => {
+          this.loggedIn = false;
+          return of(undefined);
+        }),
+      )
+      .subscribe((data) => {
+        if (data?.body?.success) {
+          this.loggedIn = true;
+          this.currentUser = data.body.user?.username;
+        }
+      });
   }
 
   isLoggedIn(): boolean {
     return this.loggedIn;
   }
 
+  getUserInfo(): Observable<UserInfoResponse> {
+    return this.http
+      .get<UserInfoResponse>(`${environment.apiUrl}/user/info`, {
+        withCredentials: true,
+        observe: 'response',
+      })
+      .pipe(
+        catchError((_err: HttpErrorResponse) => {
+          return of(undefined);
+        }),
+        map((data) => {
+          return data?.body || { success: false, message: 'Not logged in' };
+        }),
+      );
+  }
+
   getCurrentUser(): string | undefined {
+    if (!this.currentUser) {
+      this.http
+        .get<UserInfoResponse>(`${environment.apiUrl}/user/info`, {
+          withCredentials: true,
+          observe: 'response',
+        })
+        .pipe(
+          catchError((_err: HttpErrorResponse) => {
+            this.loggedIn = false;
+            return of(undefined);
+          }),
+        )
+        .subscribe((data) => {
+          if (data?.body?.success) {
+            this.loggedIn = true;
+            this.currentUser = data.body.user?.username;
+          }
+        });
+    }
     return this.currentUser;
   }
 
@@ -70,10 +122,10 @@ export class AuthService {
     email: string,
     password: string,
   ): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(
-      `${environment.apiUrl}/user`,
-      { username, email, password },
-      { withCredentials: true },
-    );
+    return this.http.post<ApiResponse>(`${environment.apiUrl}/user`, {
+      username,
+      email,
+      password,
+    });
   }
 }

@@ -28,30 +28,19 @@ export const EMAIL_REGEX =
 export class UserController {
   constructor(private userService: UserService) { }
 
-  @Get()
-  async getUserInfo(
-    @Param('username') username: string,
-    @Req() request: Request,
-    @Res() response: Response,
-  ): Promise<UserInfoResponse> {
-    const user = await this.userService.findUserByUsername(username);
-
-    if (!user) {
-      return { success: false, message: "Couldn't find the requested user" };
+  @Get('info')
+  async getUserInfo(@Req() request: Request): Promise<UserInfoResponse> {
+    console.log(' 🚀 ~ user.controller.ts:33 → User info', request.user);
+    if (!request.user) {
+      return { success: false, message: 'Not logged in' };
     }
-
-    if (user.username !== request.user?.username) {
-      response.status(401);
-      return { success: false, message: "You cannot see this user's details" };
-    }
-
     return {
       success: true,
-      message: 'User details retrieved',
+      message: 'User info returned',
       user: {
-        username: user.username,
-        email: user.email,
-        verified: user.verified,
+        username: request.user.username,
+        email: request.user.email,
+        verified: request.user.verified,
       },
     };
   }

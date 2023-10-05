@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -6,13 +6,23 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: 'profile.component.html',
   styleUrls: ['profile.component.scss'],
 })
-export class ProfilePageComponent {
+export class ProfilePageComponent implements OnInit {
   isModalOpen: boolean;
   username: string;
 
   constructor(private authService: AuthService) {
     this.isModalOpen = false;
-    this.username = this.authService.getCurrentUser() || 'Not logged in';
+    this.username = 'Not logged in';
+  }
+
+  ngOnInit() {
+    this.authService.getUserInfo().subscribe((data) => {
+      if (data.success) {
+        this.username = data.user?.username || 'Not logged in';
+      } else {
+        console.log('Failed to query user profile');
+      }
+    });
   }
 
   setModalOpen(state: boolean) {
