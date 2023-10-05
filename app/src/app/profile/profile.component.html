@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>My Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-text>
+        <p style="font-weight: bold">Profile Options</p>
+      </ion-text>
+    </ion-list-header>
+    <ion-item>
+      <ion-input disabled="true" label="Username" [value]="username"></ion-input>
+    </ion-item>
+    <ion-item button="true" color="warning" (click)="changePasswordClick()">
+      <ion-text slot="start">
+        <p>Change Password</p>
+      </ion-text>
+    </ion-item>
+  </ion-list>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <gatekeeper-change-password (shouldClose)="setModalOpen(false)" />
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -16,7 +16,30 @@ export class UserService implements OnModuleInit {
     });
   }
 
+  async changePassword(
+    userRef: DocumentReference,
+    newPassword: string,
+  ): Promise<void> {
+    if (!this.firebaseService) {
+      throw 'No firebase provider';
+    }
+
+    await userRef.update({ passwordHash: await argon2.hash(newPassword) });
+  }
+
   async findUserByUsername(username: string): Promise<User | undefined> {
+    try {
+      const ref = await this.findUserByUsernameRef(username);
+      const data = await ref?.get();
+      return data?.data();
+    } catch (e) {
+      return undefined;
+    }
+  }
+
+  async findUserByUsernameRef(
+    username: string,
+  ): Promise<DocumentReference<User> | undefined> {
     if (!this.firebaseService) {
       throw 'No firebase connection';
     }
@@ -24,12 +47,14 @@ export class UserService implements OnModuleInit {
     const firestore = this.firebaseService?.getFirestore();
     const collection = firestore?.collection('/users');
     const result = await collection?.where('username', '==', username).get();
+
     console.log('🚀 ~ user.service.ts:27 → result', result?.docs.length);
     if (!result || result?.docs.length === 0) {
       return undefined;
     }
 
-    const user: User | undefined = result?.docs.at(0)?.data() as User;
+    const user: DocumentReference<User> | undefined = result?.docs.at(0)
+      ?.ref as DocumentReference<User> | undefined;
     console.log(`🚀 ~ user.service.ts:33 → user: ${JSON.stringify(user)}`);
     return user;
   }
@@ -85,7 +110,7 @@ export class UserService implements OnModuleInit {
 
   async authenticate(
     username: string,
-    password: string
+    password: string,
   ): Promise<Cookie | undefined> {
     const firestore = this.firebaseService?.getFirestore();
     const collection = firestore?.collection('/users');
@@ -123,14 +148,16 @@ export class UserService implements OnModuleInit {
     return undefined;
   }
 
-  async checkCookie(secret: string): Promise<boolean> {
+  async checkCookie(secret: string): Promise<User | undefined> {
     if (!this.firebaseService) {
-      return false;
+      console.error('  ~ user.service.ts:153 → No firebase service present');
+      return undefined;
     }
 
     const firestore = this.firebaseService.getFirestore();
     if (!firestore) {
-      return false;
+      console.error('  ~ user.service.ts:153 → No firestore present');
+      return undefined;
     }
 
     const query = await firestore
@@ -140,15 +167,19 @@ export class UserService implements OnModuleInit {
       .get();
 
     if (query.docs.length !== 1) {
-      return false;
+      return undefined;
     }
 
     const cookie = query.docs[0].data() as Cookie;
     const user: User | undefined = (await cookie.userRef.get()).data() as User;
+    console.log(
+      ' 🚀 ~ user.service.ts:175 → User associated with cookie: ',
+      user,
+    );
     if (!user.verified) {
-      return false;
+      return undefined;
     }
 
-    return true;
+    return user;
   }
 }

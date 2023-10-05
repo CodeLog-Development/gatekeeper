@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from '@angular/common';
+import { StatusPageModule } from './status/status.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    StatusPageModule,
     AuthModule,
     IonicModule.forRoot(),
   ],

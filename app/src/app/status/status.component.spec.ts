@@ -4,13 +4,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ServerStatusService } from './server.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
+import { McStatusService } from './mc-status.service';
 
 describe('StatusPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
       declarations: [StatusPageComponent],
-      providers: [ServerStatusService, AuthService],
+      providers: [ServerStatusService, AuthService, McStatusService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

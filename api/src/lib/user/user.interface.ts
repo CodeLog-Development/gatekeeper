@@ -1,4 +1,5 @@
 import { DocumentReference } from 'firebase-admin/firestore';
+import { ApiResponse } from '../api.interface';
 
 export interface NewUser {
   username: string;
@@ -22,4 +23,27 @@ export interface Cookie {
   userRef: DocumentReference;
   secret: string;
   expires: number;
+}
+
+export interface ChangePasswordRequest {
+  username: string;
+  currentPassword: string;
+  newPassword: string;
+  confirm: string;
+}
+
+export interface UserInfoResponse extends ApiResponse {
+  user?: {
+    username: string;
+    email: string;
+    verified: boolean;
+  };
+}
+
+export function validatePassword(password: string): string | undefined {
+  if (password.length < 8) {
+    return 'Password must be longer that 8 characters';
+  }
+
+  return undefined;
 }
