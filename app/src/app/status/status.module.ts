@@ -12,4 +12,4 @@ import { McStatusService } from './mc-status.service';
   declarations: [StatusPageComponent],
   exports: [StatusPageComponent],
 })
-export class StatusPageModule {}
+export class StatusPageModule { }

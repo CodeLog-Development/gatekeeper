@@ -26,7 +26,7 @@ export class LoginPage {
     private loadingCtrl: LoadingController,
     private authService: AuthService,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
   ) {
     this.username = '';
     this.password = '';
@@ -39,7 +39,7 @@ export class LoginPage {
     const customEvent = event as InputCustomEvent<InputChangeEventDetail>;
     console.log(
       '🚀 ~ login.page.ts:11 → Username field commited. New value: ',
-      customEvent.detail.value
+      customEvent.detail.value,
     );
     this.username = customEvent.detail.value || '';
   }
@@ -62,14 +62,14 @@ export class LoginPage {
     loading.present();
 
     this.authService.login(this.username, this.password).subscribe((data) => {
-      if (data.success) {
+      if (data?.success) {
         this.authService.setLoggedIn(true);
         loading.dismiss();
         this.router.navigateByUrl('/tabs/status');
       } else {
         loading.dismiss();
         this.isToastOpen = true;
-        this.toastMessage = data.message || 'An unkown error occurred';
+        this.toastMessage = data?.message || 'An unkown error occurred';
       }
     });
   }
@@ -80,7 +80,7 @@ export class LoginPage {
       .pipe(
         catchError(() => {
           return of(undefined);
-        })
+        }),
       )
       .subscribe((data) => {
         if (data?.success || false) {

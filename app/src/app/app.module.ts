@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from '@angular/common';
-import { NotificationService } from './notification.service';
+import { StatusPageModule } from './status/status.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,13 +18,11 @@ import { NotificationService } from './notification.service';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    StatusPageModule,
     AuthModule,
     IonicModule.forRoot(),
   ],
-  providers: [
-    NotificationService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-  ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -6,7 +6,19 @@ import {
 import { Injectable } from '@angular/core';
 import { StartServerResponse, StopServerResponse } from '@gatekeeper/api';
 import { environment } from '../../environments/environment';
-import { Observable, catchError, map, of, retry } from 'rxjs';
+import {
+  Observable,
+  asyncScheduler,
+  catchError,
+  concat,
+  concatAll,
+  interval,
+  map,
+  observeOn,
+  of,
+  retry,
+  take,
+} from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -21,7 +33,7 @@ export class ServerStatusService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) { }
 
   getStatus(): Observable<HttpResponse<ServerStatus>> {
@@ -29,6 +41,24 @@ export class ServerStatusService {
       withCredentials: true,
       observe: 'response',
     });
+  }
+
+  statusObserver(
+    timeout: number,
+  ): Observable<HttpResponse<ServerStatus> | undefined> {
+    return interval(timeout).pipe(
+      map((_refreshCount) => {
+        return this.getStatus();
+      }),
+      concatAll(),
+      catchError((err: HttpErrorResponse) => {
+        console.warn(
+          ' 🚀 server.service.ts:52 Failed periodic server status check.',
+          err,
+        );
+        return of(undefined);
+      }),
+    );
   }
 
   startServer(id: string): Observable<StartServerResponse | undefined> {
@@ -41,12 +71,12 @@ export class ServerStatusService {
         {
           withCredentials: true,
           observe: 'response',
-        }
+        },
       )
       .pipe(
         retry(3),
         catchError(this.handleError),
-        map((res: HttpResponse<StartServerResponse>) => res.body || undefined)
+        map((res: HttpResponse<StartServerResponse>) => res.body || undefined),
       );
   }
 
@@ -69,12 +99,12 @@ export class ServerStatusService {
         {
           withCredentials: true,
           observe: 'response',
-        }
+        },
       )
       .pipe(
         retry(3),
         catchError(this.handleError),
-        map((res) => res.body || undefined)
+        map((res) => res.body || undefined),
       );
   }
 }

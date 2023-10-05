@@ -2,12 +2,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import { NotificationService } from './notification.service';
 
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [NotificationService],
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
