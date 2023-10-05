@@ -1,7 +1,9 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { UserService } from '../user/user.service';
+import { User } from '../user';
+import { Request } from '../api.interface';
 
 @Injectable()
 export class AuthenticationMiddleware implements NestMiddleware {
@@ -17,8 +19,9 @@ export class AuthenticationMiddleware implements NestMiddleware {
     } else {
       this.userService
         .checkCookie(authCookie)
-        .then((isValid) => {
-          if (isValid) {
+        .then((user: User | undefined) => {
+          if (user?.verified) {
+            req.user = user;
             next();
           } else {
             res.status(401).end();
@@ -27,7 +30,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
         .catch((e) => {
           console.error(
             ' ~ auth.middleware.ts:25 → Failed to check cookie',
-            e
+            e,
           );
           res.status(500).end();
         });

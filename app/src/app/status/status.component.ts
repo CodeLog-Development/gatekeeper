@@ -77,6 +77,18 @@ export class StatusPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh(undefined);
+    this.statusService.statusObserver(10000).subscribe((statusResponse) => {
+      if (!this.serverStatus) {
+        this.serverStatus = { success: true, message: '' };
+      }
+
+      if (statusResponse?.body?.success) {
+        this.serverStatus.running = [];
+        statusResponse.body.running?.forEach(
+          (i) => this.serverStatus?.running?.push(i),
+        );
+      }
+    });
   }
 
   isRunning(): boolean {
