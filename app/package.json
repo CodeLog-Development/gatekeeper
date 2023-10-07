@@ -6,7 +6,7 @@
   "dependencies": {
     "@capacitor/android": "^5.4.1",
     "@capacitor/core": "5.4.1",
-    "@capacitor/push-notifications": "^5.1.0",
+    "@capacitor/push-notifications": "5.1.0",
     "@nx/devkit": "^16.9.1",
     "@nxtend/capacitor": "13.0.0",
     "ionic": "^5.4.16",
