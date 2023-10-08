@@ -23,6 +23,10 @@ export class UserModule implements NestModule {
         path: 'user/info',
         method: RequestMethod.GET,
       },
+      {
+        path: 'user/notificationToken',
+        method: RequestMethod.PATCH,
+      },
     );
   }
 }

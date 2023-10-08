@@ -14,7 +14,7 @@ export interface ServerStatus {
 export class ServerService implements OnModuleInit {
   private ec2Service?: Ec2Service;
   private firebaseService?: FirebaseService;
-  constructor(private moduleRef: ModuleRef) {}
+  constructor(private moduleRef: ModuleRef) { }
 
   onModuleInit() {
     this.ec2Service = this.moduleRef.get(Ec2Service, { strict: false });
@@ -62,6 +62,10 @@ export class ServerService implements OnModuleInit {
       });
       return { success: true, message: 'Instance started', started: [id] };
     } catch (e) {
+      console.warn(
+        ' 🚀 ~ server.service.ts → Caught an error trying to start the server',
+        e,
+      );
       return { success: false, message: 'Failed to start instance' };
     }
   }
@@ -82,6 +86,10 @@ export class ServerService implements OnModuleInit {
       });
       return { success: true, message: 'Instance stopped', stopped: [id] };
     } catch (e) {
+      console.warn(
+        ' 🚀 ~ server.service.ts → Caught an error trying to stop the server',
+        e,
+      );
       return { success: false, message: 'Failed to stop instance' };
     }
   }

@@ -10,13 +10,17 @@ import {
   Messaging,
   TopicMessage,
 } from 'firebase-admin/messaging';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class FirebaseService {
   private readonly firestore?: Firestore;
   private readonly messaging?: Messaging;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private userService: UserService,
+  ) {
     const serviceAccount =
       this.configService.get<ServiceAccount>('serviceAccount');
 
@@ -41,16 +45,22 @@ export class FirebaseService {
 
   async sendNotification(
     notification: GatekeeperNotification,
-  ): Promise<string | undefined> {
-    return await this.messaging?.send({
-      condition: 'true',
-      android: {
+  ): Promise<boolean> {
+    try {
+      const tokens: string[] =
+        await this.userService.getAllNotificationTokens();
+
+      await this.messaging?.sendEachForMulticast({
+        tokens,
         notification: {
           title: notification.title,
           body: notification.message,
-          channelId: 'notifications',
         },
-      },
-    });
+      });
+
+      return true;
+    } catch (_e) {
+      return false;
+    }
   }
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { PushNotifications } from '@capacitor/push-notifications';
+import { PushNotifications, Token } from '@capacitor/push-notifications';
 
 @Injectable()
 export class NotificationService {
   private static registered = false;
+  private static regToken: Token;
 
   constructor() {
     if (!NotificationService.registered) {
@@ -46,6 +47,7 @@ export class NotificationService {
           token,
         );
         NotificationService.registered = true;
+        NotificationService.regToken = token;
       });
 
       await PushNotifications.addListener('registrationError', (err) => {
@@ -70,5 +72,9 @@ export class NotificationService {
         e,
       );
     }
+  }
+
+  getToken(): Token {
+    return NotificationService.regToken;
   }
 }

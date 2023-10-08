@@ -11,6 +11,7 @@ import {
 import {
   AuthRequest,
   ChangePasswordRequest,
+  ChangeTokenRequest,
   NewUser,
   UserInfoResponse,
   validatePassword,
@@ -43,6 +44,31 @@ export class UserController {
         verified: request.user.verified,
       },
     };
+  }
+
+  @Patch('/notificationToken')
+  async setNotificationToken(
+    @Body() input: ChangeTokenRequest,
+    @Req() request: Request,
+  ): Promise<ApiResponse> {
+    if (!request.user) {
+      return { success: false, message: 'Could not find user information' };
+    }
+
+    try {
+      const ref = await this.userService.findUserByUsernameRef(
+        request.user.username,
+      );
+      if (ref !== undefined) {
+        await this.userService.setNotificationToken(ref, input.token);
+        return { success: true, message: 'Notification token updated' };
+      } else {
+        return { success: false, message: 'Could not find user information' };
+      }
+    } catch (e) {
+      console.error('Failed to update notification token', e);
+      return { success: false, message: 'An unkown error occurred' };
+    }
   }
 
   @Patch('/password')
