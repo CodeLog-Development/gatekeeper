@@ -135,7 +135,7 @@ export class AuthService {
       .patch<ApiResponse>(
         `${environment.apiUrl}/user/notificationToken`,
         { token: token.value },
-        { observe: 'response' },
+        { observe: 'response', withCredentials: true },
       )
       .pipe(
         retry(3),

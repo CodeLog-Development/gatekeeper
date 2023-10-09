@@ -18,14 +18,14 @@ export class ServerController {
 
   @Post('start')
   async startServer(
-    @Body() startRequest: StartInstanceRequest
+    @Body() startRequest: StartInstanceRequest,
   ): Promise<StartServerResponse> {
     return await this.serverService.startInstance(startRequest.instanceId);
   }
 
   @Post('stop')
   async stopServer(
-    @Body() stopRequest: StopServerRequest
+    @Body() stopRequest: StopServerRequest,
   ): Promise<StopServerResponse> {
     return await this.serverService.stopServer(stopRequest.instanceId);
   }

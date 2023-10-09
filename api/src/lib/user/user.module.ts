@@ -11,6 +11,7 @@ import { AuthenticationMiddleware } from '../auth/auth.middleware';
 @Module({
   providers: [UserService],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
