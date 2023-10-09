@@ -8,16 +8,12 @@ import { StartServerResponse, StopServerResponse } from '@gatekeeper/api';
 import { environment } from '../../environments/environment';
 import {
   Observable,
-  asyncScheduler,
   catchError,
-  concat,
   concatAll,
   interval,
   map,
-  observeOn,
   of,
   retry,
-  take,
 } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';

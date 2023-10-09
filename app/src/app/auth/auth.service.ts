@@ -5,8 +5,9 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiResponse, UserInfoResponse } from '@gatekeeper/api';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, retry } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Token } from '@capacitor/push-notifications';
 
 @Injectable()
 export class AuthService {
@@ -127,5 +128,23 @@ export class AuthService {
       email,
       password,
     });
+  }
+
+  setNotificationToken(token: Token): Observable<ApiResponse | undefined> {
+    return this.http
+      .patch<ApiResponse>(
+        `${environment.apiUrl}/user/notificationToken`,
+        { token: token.value },
+        { observe: 'response', withCredentials: true },
+      )
+      .pipe(
+        retry(3),
+        catchError((_err: HttpErrorResponse) => {
+          return of(undefined);
+        }),
+        map((data) => {
+          return data?.body || undefined;
+        }),
+      );
   }
 }

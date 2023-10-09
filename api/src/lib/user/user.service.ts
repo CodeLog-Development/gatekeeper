@@ -4,7 +4,11 @@ import { FirebaseService } from '../firebase/firebase.service';
 import * as argon2 from 'argon2';
 import { ModuleRef } from '@nestjs/core';
 import { randomBytes } from 'crypto';
-import { DocumentData, DocumentReference } from 'firebase-admin/firestore';
+import {
+  CollectionReference,
+  DocumentData,
+  DocumentReference,
+} from 'firebase-admin/firestore';
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -14,6 +18,10 @@ export class UserService implements OnModuleInit {
     this.firebaseService = this.moduleRef.get(FirebaseService, {
       strict: false,
     });
+  }
+
+  async setNotificationToken(userRef: DocumentReference<User>, token: string) {
+    await userRef.set({ notificationToken: token }, { merge: true });
   }
 
   async changePassword(
@@ -181,5 +189,21 @@ export class UserService implements OnModuleInit {
     }
 
     return user;
+  }
+
+  async getAllNotificationTokens(): Promise<string[]> {
+    const firestore = this.firebaseService?.getFirestore();
+    const collection = firestore?.collection('/users');
+    const docs = await collection?.get();
+    const tokens = [];
+
+    for (const d of docs?.docs || []) {
+      const doc = d.data() as User;
+      if (doc.notificationToken) {
+        tokens.push(doc.notificationToken);
+      }
+    }
+
+    return tokens;
   }
 }

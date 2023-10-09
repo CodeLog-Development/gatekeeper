@@ -1,6 +1,10 @@
 import { DocumentReference } from 'firebase-admin/firestore';
 import { ApiResponse } from '../api.interface';
 
+export interface ChangeTokenRequest {
+  token: string;
+}
+
 export interface NewUser {
   username: string;
   email: string;
@@ -12,6 +16,7 @@ export interface User {
   email: string;
   passwordHash: string;
   verified: boolean;
+  notificationToken?: string;
 }
 
 export interface AuthRequest {

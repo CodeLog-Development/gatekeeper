@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from '@angular/common';
 import { StatusPageModule } from './status/status.module';
+import { NotificationService } from './notification.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,10 @@ import { StatusPageModule } from './status/status.module';
     AuthModule,
     IonicModule.forRoot(),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    NotificationService,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

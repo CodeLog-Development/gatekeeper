@@ -8,6 +8,7 @@ import {
   AlertController,
 } from '@ionic/angular';
 import { catchError, of } from 'rxjs';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'gatekeeper-login',
@@ -27,6 +28,7 @@ export class LoginPage {
     private authService: AuthService,
     private router: Router,
     private alertController: AlertController,
+    private notificationService: NotificationService,
   ) {
     this.username = '';
     this.password = '';
@@ -61,17 +63,32 @@ export class LoginPage {
 
     loading.present();
 
-    this.authService.login(this.username, this.password).subscribe((data) => {
-      if (data?.success) {
-        this.authService.setLoggedIn(true);
-        loading.dismiss();
-        this.router.navigateByUrl('/tabs/status');
-      } else {
-        loading.dismiss();
-        this.isToastOpen = true;
-        this.toastMessage = data?.message || 'An unkown error occurred';
-      }
-    });
+    const sub = this.authService
+      .login(this.username, this.password)
+      .subscribe((data) => {
+        sub.unsubscribe();
+        if (data?.success) {
+          this.authService.setLoggedIn(true);
+          loading.dismiss();
+
+          if (this.notificationService.isRegistered()) {
+            const sub = this.authService
+              .setNotificationToken(this.notificationService.getToken())
+              .subscribe((data) => {
+                sub.unsubscribe();
+                if (data?.success) {
+                  console.log(' 🚀 ~ login.page.ts → Notifications subscribed');
+                }
+              });
+          }
+
+          this.router.navigateByUrl('/tabs/status');
+        } else {
+          loading.dismiss();
+          this.isToastOpen = true;
+          this.toastMessage = data?.message || 'An unkown error occurred';
+        }
+      });
   }
 
   registerSubmit() {
