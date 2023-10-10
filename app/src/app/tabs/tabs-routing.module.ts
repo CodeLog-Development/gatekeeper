@@ -17,6 +17,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('../profile/profile.module').then((m) => m.ProfilePageModule),
       },
+      {
+        path: 'shop',
+        loadChildren: () =>
+          import('../shop/shop.module').then((m) => m.ShopPageModule),
+      },
     ],
   },
 ];
@@ -25,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TabsPageRoutingModule { }
+export class TabsPageRoutingModule {}

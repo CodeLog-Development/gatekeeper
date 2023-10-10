@@ -19,8 +19,11 @@
     </ion-card-content>
 
     <div id="buttonContainer">
+      <ion-button fill="clear" (click)="setModalOpen(true)">
+        Register
+      </ion-button>
+
       <ion-button fill="clear" (click)="loginSubmit()">Login</ion-button>
-      <ion-button fill="clear" (click)="setModalOpen(true)">Register</ion-button>
     </div>
   </ion-card>
   <ion-toast color="danger" [isOpen]="isToastOpen" [message]="toastMessage" [duration]="5000"
@@ -54,7 +57,9 @@
           </ion-card-content>
 
           <div id="buttonContainer">
-            <ion-button fill="clear" (click)="registerSubmit()">Submit</ion-button>
+            <ion-button fill="clear" (click)="registerSubmit()">
+              Submit
+            </ion-button>
           </div>
         </ion-card>
       </ion-content>
