@@ -92,7 +92,7 @@ export class LoginPage {
   }
 
   registerSubmit() {
-    this.authService
+    const sub = this.authService
       .register(this.username, this.email, this.password)
       .pipe(
         catchError(() => {
@@ -100,6 +100,7 @@ export class LoginPage {
         }),
       )
       .subscribe((data) => {
+        sub.unsubscribe();
         if (data?.success || false) {
           this.alertController
             .create({

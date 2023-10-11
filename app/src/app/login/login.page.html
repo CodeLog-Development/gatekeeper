@@ -12,10 +12,10 @@
     <ion-card-content>
       <ion-input fill="outline" color="success" label="Username" autocomplete="username"
         style="--color: var(--ion-color-dark); margin-bottom: 10px" label-placement="floating"
-        (ionChange)="usernameChanged($event)"></ion-input>
+        (ionChange)="usernameChanged($event)" (keydown.enter)="loginSubmit()"></ion-input>
       <ion-input fill="outline" color="success" label="Password" type="password" autocomplete="current-password"
-        style="--color: var(--ion-color-dark)" label-placement="floating"
-        (ionChange)="passwordChanged($event)"></ion-input>
+        style="--color: var(--ion-color-dark)" label-placement="floating" (ionChange)="passwordChanged($event)"
+        (keydown.enter)="loginSubmit()"></ion-input>
     </ion-card-content>
 
     <div id="buttonContainer">

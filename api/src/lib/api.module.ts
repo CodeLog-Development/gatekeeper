@@ -11,6 +11,8 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { AwsModule } from './aws/aws.module';
 import { LoggerMiddleware } from './logger/logger.middleware';
+import { CurrencyModule } from './currency/currency.module';
+import { TokenModule } from './token/token.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { LoggerMiddleware } from './logger/logger.middleware';
     FirebaseModule,
     AwsModule,
     UserModule,
+    CurrencyModule,
+    TokenModule,
   ],
 })
 export class ApiModule implements NestModule {
