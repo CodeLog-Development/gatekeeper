@@ -54,7 +54,7 @@
     "@angular/compiler-cli": "~16.2.0",
     "@angular/language-service": "~16.2.7",
     "@capacitor/android": "^3.2.5",
-    "@capacitor/cli": "5.4.1",
+    "@capacitor/cli": "5.4.2",
     "@capacitor/ios": "^3.2.5",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
