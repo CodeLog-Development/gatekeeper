@@ -1,10 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { CurrencyService } from './currency.service';
 import { GetExchangeRateResponse } from './currency.interface';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('currency')
+@UseGuards(AuthGuard)
 export class CurrencyController {
-  constructor(private currencyService: CurrencyService) { }
+  constructor(private currencyService: CurrencyService) {}
 
   @Get('exchangeRate')
   async getExchangeRate(): Promise<GetExchangeRateResponse> {

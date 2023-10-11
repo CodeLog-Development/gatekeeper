@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import {
   AuthRequest,
@@ -21,20 +22,23 @@ import { Response } from 'express';
 import { Request } from '../api.interface';
 import { ApiResponse } from '../api.interface';
 import * as argon2 from 'argon2';
+import { AuthGuard } from '../auth/auth.guard';
 
 export const EMAIL_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   @Get('info')
+  @UseGuards(AuthGuard)
   async getUserInfo(@Req() request: Request): Promise<UserInfoResponse> {
     console.log(' 🚀 ~ user.controller.ts:33 → User info', request.user);
     if (!request.user) {
       return { success: false, message: 'Not logged in' };
     }
+
     return {
       success: true,
       message: 'User info returned',
@@ -47,6 +51,7 @@ export class UserController {
   }
 
   @Patch('/notificationToken')
+  @UseGuards(AuthGuard)
   async setNotificationToken(
     @Body() input: ChangeTokenRequest,
     @Req() request: Request,
@@ -72,6 +77,7 @@ export class UserController {
   }
 
   @Patch('/password')
+  @UseGuards(AuthGuard)
   async changePassword(
     @Body() input: ChangePasswordRequest,
   ): Promise<ApiResponse> {
@@ -122,6 +128,13 @@ export class UserController {
         return { success: false, message: 'Invalid email' };
       }
 
+      if (newUser.password.length < 8) {
+        return {
+          success: false,
+          message: 'Password must be at least 8 characters',
+        };
+      }
+
       const existingEmail = await this.userService.findUserByEmail(
         newUser.email,
       );
@@ -151,6 +164,7 @@ export class UserController {
           httpOnly: false,
           sameSite: 'none',
         });
+        console.log(' 🚀 ~ user.controller.ts → New user registered');
         return { success: true, message: 'User registered' };
       } else {
         res.status(401);

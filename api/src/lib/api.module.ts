@@ -13,6 +13,7 @@ import { AwsModule } from './aws/aws.module';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { CurrencyModule } from './currency/currency.module';
 import { TokenModule } from './token/token.module';
+import { AuthenticationMiddleware } from './auth/auth.middleware';
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ import { TokenModule } from './token/token.module';
 export class ApiModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(LoggerMiddleware)
+      .apply(LoggerMiddleware, AuthenticationMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }
