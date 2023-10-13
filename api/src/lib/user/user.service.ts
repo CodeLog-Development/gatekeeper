@@ -81,11 +81,11 @@ export class UserService implements OnModuleInit {
     return user;
   }
 
-  async createUser(newUser: NewUser): Promise<Cookie | undefined> {
+  async createUser(newUser: NewUser): Promise<string | undefined> {
     const { username, email, password } = newUser;
 
-    if (!username || !email || !password || password.length < 8) {
-      return undefined;
+    if (!username || !email || !password) {
+      return 'Missing required fields';
     }
 
     const user: User = {
@@ -95,25 +95,15 @@ export class UserService implements OnModuleInit {
       verified: false,
     };
 
-    const firestore = this.firebaseService?.getFirestore();
-    const collection = firestore?.collection('/users');
-    const cookies = firestore?.collection('/cookies');
-    const dbUser = await collection?.add(user);
-
-    if (!dbUser) {
-      return undefined;
-    }
-    const newCookie: Cookie = {
-      userRef: dbUser,
-      secret: randomBytes(16).toString('base64'),
-      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    };
-
     try {
-      await cookies?.add(newCookie);
-      return newCookie;
-    } catch {
+      const firestore = this.firebaseService?.getFirestore();
+      const collection = firestore?.collection('/users');
+      await collection?.add(user);
+
       return undefined;
+    } catch (e) {
+      console.error(' 🚀 ~ user.service.ts → Failed to register user', e);
+      return 'Failed to register user';
     }
   }
 

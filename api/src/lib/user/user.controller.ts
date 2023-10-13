@@ -5,7 +5,6 @@ import {
   Res,
   Patch,
   Get,
-  Param,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -156,19 +155,12 @@ export class UserController {
       }
 
       const result = await this.userService.createUser(newUser);
-      if (result !== undefined) {
-        res.cookie('auth', result.secret, {
-          path: '/',
-          secure: true,
-          expires: new Date(result.expires),
-          httpOnly: false,
-          sameSite: 'none',
-        });
+      if (result === undefined) {
         console.log(' 🚀 ~ user.controller.ts → New user registered');
         return { success: true, message: 'User registered' };
       } else {
         res.status(401);
-        return { success: false, message: "Couldn't create user!" };
+        return { success: false, message: result };
       }
     } catch (e) {
       console.error(" ~ user.controller.ts:14 → Couldn't create new user!", e);
@@ -207,7 +199,7 @@ export class UserController {
       path: '/',
       secure: true,
       expires: new Date(result.expires),
-      httpOnly: false,
+      httpOnly: true,
       sameSite: 'none',
     });
 
