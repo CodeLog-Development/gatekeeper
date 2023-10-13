@@ -16,8 +16,20 @@
       <ion-card-header>
         <ion-card-title style="text-align: center">{{ bundle.amount }} Tokens</ion-card-title>
       </ion-card-header>
-      <ion-card-content> </ion-card-content>
-      <ion-button fill="clear" expand="block" color="success" (click)="purchaseBundle(bundle.id)">
+      <ion-card-content>
+        <img id="img{{ bundle.id }}" src="assets/bundles/{{ bundle.id }}.png" alt="Single Coin" />
+        <ion-popover trigger="img{{ bundle.id}}" trigger-action="click" size="auto" mode="ios">
+          <ng-template>
+            <ion-content>
+              <a class="attribution-link" referrerpolicy="no-referrer"
+                href="https://www.freepik.com/free-vector/set-gold-silver-bronze-coins-isolated_14877887.htm">
+                Image by DrawingMyDiary
+              </a>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+      </ion-card-content>
+      <ion-button class="buy-button" fill="clear" expand="block" color="success" (click)="purchaseBundle(bundle.id)">
         Buy {{ currencySymbol }}{{ bundle.price | number: '1.2-2' }}
       </ion-button>
     </ion-card>

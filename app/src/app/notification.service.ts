@@ -33,8 +33,11 @@ export class NotificationService {
       }
     } catch (e) {
       console.warn(
-        ' 🚀 ~ notification.service.ts:31 → Failed to register for push notifications',
+        ' 🚀 ~ notification.service.ts → Caught exception registering for notifications:',
         e,
+      );
+      console.info(
+        ' 🚀 ~ notification.service.ts → Not a bug! We are most likely in a web browser, not native',
       );
     }
   }
@@ -43,7 +46,7 @@ export class NotificationService {
     try {
       await PushNotifications.addListener('registration', (token) => {
         console.info(
-          ' 🚀 ~ notification.service.ts:23 → Registered for push notifications',
+          ' 🚀 ~ notification.service.ts:23 → Registered for push notifications:',
           token,
         );
         NotificationService.registered = true;
@@ -52,7 +55,7 @@ export class NotificationService {
 
       await PushNotifications.addListener('registrationError', (err) => {
         console.warn(
-          ' 🚀 ~ notification.service.ts:31 → Push notification registration error',
+          ' 🚀 ~ notification.service.ts:31 → Push notification registration error:',
           err,
         );
       });
@@ -61,14 +64,14 @@ export class NotificationService {
         'pushNotificationReceived',
         (notification) => {
           console.log(
-            ' 🚀 ~ notification.service.ts:38 → Notification received',
+            ' 🚀 ~ notification.service.ts:38 → Notification received:',
             notification,
           );
         },
       );
     } catch (e) {
       console.warn(
-        ' 🚀 ~ notification.service.ts → Failed to register notification listeners',
+        ' 🚀 ~ notification.service.ts → Caught exception registering notification listeners:',
         e,
       );
     }

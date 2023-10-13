@@ -36,7 +36,6 @@ export class ShopPageComponent implements OnInit, OnDestroy {
     this.exchangeRateSubscription = this.shopService
       .getExchangeRate()
       .subscribe((data) => {
-        console.log(data);
         if (data?.success) {
           this.zarEuro = data.rate;
         }
