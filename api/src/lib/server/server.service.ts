@@ -1,7 +1,12 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Ec2Service } from '../aws/ec2/ec2.service';
 import { ModuleRef } from '@nestjs/core';
-import { StartServerResponse, StopServerResponse } from './server.interface';
+import {
+  InstanceInfo,
+  InstanceListResponse,
+  StartServerResponse,
+  StopServerResponse,
+} from './server.interface';
 import { FirebaseService } from '../firebase/firebase.service';
 
 export interface ServerStatus {
@@ -92,5 +97,17 @@ export class ServerService implements OnModuleInit {
       );
       return { success: false, message: 'Failed to stop instance' };
     }
+  }
+
+  async getInstances(): Promise<InstanceInfo[]> {
+    const firestore = this.firebaseService?.getFirestore();
+    const docs = await firestore?.collection('/instances').get();
+    const instances: InstanceInfo[] = [];
+    for (const d of docs?.docs || []) {
+      const info = d.data() as InstanceInfo;
+      instances.push(info);
+    }
+
+    return instances;
   }
 }

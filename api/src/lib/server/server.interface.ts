@@ -15,3 +15,18 @@ export interface StopServerRequest {
 export interface StopServerResponse extends ApiResponse {
   stopped?: string[];
 }
+
+export interface InstanceListResponse extends ApiResponse {
+  instances?: InstanceInfo[];
+}
+
+export interface ServerInfo {
+  name: string;
+  ip: string;
+}
+
+export interface InstanceInfo {
+  id: string;
+  name: string;
+  servers: ServerInfo[];
+}
