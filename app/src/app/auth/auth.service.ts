@@ -21,7 +21,7 @@ export class AuthService {
         observe: 'response',
       })
       .pipe(
-        catchError((_err: HttpErrorResponse) => {
+        catchError(() => {
           this.loggedIn = false;
           return of(undefined);
         }),
@@ -45,7 +45,7 @@ export class AuthService {
         observe: 'response',
       })
       .pipe(
-        catchError((_err: HttpErrorResponse) => {
+        catchError(() => {
           return of(undefined);
         }),
         map((data) => {
@@ -62,7 +62,7 @@ export class AuthService {
           observe: 'response',
         })
         .pipe(
-          catchError((_err: HttpErrorResponse) => {
+          catchError(() => {
             this.loggedIn = false;
             return of(undefined);
           }),
@@ -139,7 +139,7 @@ export class AuthService {
       )
       .pipe(
         retry(3),
-        catchError((_err: HttpErrorResponse) => {
+        catchError(() => {
           return of(undefined);
         }),
         map((data) => {

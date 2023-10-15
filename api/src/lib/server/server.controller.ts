@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ServerStatus, ServerService } from './server.service';
 import {
   StartInstanceRequest,
@@ -6,10 +6,12 @@ import {
   StopServerRequest,
   StopServerResponse,
 } from './server.interface';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('server')
+@UseGuards(AuthGuard)
 export class ServerController {
-  constructor(private serverService: ServerService) { }
+  constructor(private serverService: ServerService) {}
 
   @Get('status')
   async getStatus(): Promise<ServerStatus> {
