@@ -4,7 +4,11 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { StartServerResponse, StopServerResponse } from '@gatekeeper/api';
+import {
+  InstanceListResponse,
+  StartServerResponse,
+  StopServerResponse,
+} from '@gatekeeper/api';
 import { environment } from '../../environments/environment';
 import {
   Observable,
@@ -30,20 +34,32 @@ export class ServerStatusService {
     private http: HttpClient,
     private authService: AuthService,
     private router: Router,
-  ) { }
+  ) {}
 
-  getStatus(): Observable<HttpResponse<ServerStatus>> {
-    return this.http.get<ServerStatus>(`${environment.apiUrl}/server/status`, {
-      withCredentials: true,
-      observe: 'response',
-    });
+  getStatus(): Observable<ServerStatus | undefined> {
+    return this.http
+      .get<ServerStatus>(`${environment.apiUrl}/server/status`, {
+        withCredentials: true,
+        observe: 'response',
+      })
+      .pipe(
+        retry(3),
+        catchError((err: HttpErrorResponse) => {
+          console.log(
+            ' 🚀 ~ server.service.ts → Failed to retrieve server status',
+            err,
+          );
+          return of(undefined);
+        }),
+        map((response) => {
+          return response?.body || undefined;
+        }),
+      );
   }
 
-  statusObserver(
-    timeout: number,
-  ): Observable<HttpResponse<ServerStatus> | undefined> {
+  statusObserver(timeout: number): Observable<ServerStatus | undefined> {
     return interval(timeout).pipe(
-      map((_refreshCount) => {
+      map(() => {
         return this.getStatus();
       }),
       concatAll(),
@@ -101,6 +117,27 @@ export class ServerStatusService {
         retry(3),
         catchError(this.handleError),
         map((res) => res.body || undefined),
+      );
+  }
+
+  getInstances(): Observable<InstanceListResponse | undefined> {
+    return this.http
+      .get<InstanceListResponse>(`${environment.apiUrl}/server/instances`, {
+        withCredentials: true,
+        observe: 'response',
+      })
+      .pipe(
+        retry(3),
+        catchError((err: HttpErrorResponse) => {
+          if (err.status === 401) {
+            this.router.navigateByUrl('/login');
+          }
+
+          return of(undefined);
+        }),
+        map((res) => {
+          return res?.body || undefined;
+        }),
       );
   }
 }

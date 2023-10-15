@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ServerStatusService, ServerStatus } from './server.service';
-import { Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
-import { catchError, map, of, retry } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { McStatusService, PlayerList } from './mc-status.service';
+import { InstanceInfo } from '@gatekeeper/api';
 
 @Component({
   selector: 'gatekeeper-status',
@@ -17,12 +14,13 @@ export class StatusPageComponent implements OnInit {
   isToastOpen: boolean;
   toastMessage: string;
   isPopoverOpen: boolean;
-  playerList?: PlayerList;
+  popoverIp = '';
+  playerList: Map<string, PlayerList> = new Map([]);
+  refreshing = true;
+  instanceList?: InstanceInfo[];
 
   constructor(
     private statusService: ServerStatusService,
-    private authService: AuthService,
-    private router: Router,
     private mcService: McStatusService,
   ) {
     this.isToastOpen = false;
@@ -34,44 +32,64 @@ export class StatusPageComponent implements OnInit {
     this.isToastOpen = state;
   }
 
+  viewPlayerList(ip: string) {
+    this.popoverIp = ip;
+    this.setPopoverOpen(true);
+  }
+
   setPopoverOpen(state: boolean) {
     this.isPopoverOpen = state;
   }
 
   refresh(event: Event | undefined) {
-    this.playerList = undefined;
+    this.refreshing = true;
+    this.playerList = new Map([]);
     const customEvent: RefresherCustomEvent | undefined = event as
       | RefresherCustomEvent
       | undefined;
-    this.statusService
-      .getStatus()
-      .pipe(
-        retry(3),
-        catchError((err) => {
-          customEvent?.target.complete();
-          if (err.status === 401) {
-            this.authService.setLoggedIn(false);
-            this.router.navigateByUrl('/login');
+
+    const instanceSub = this.statusService.getInstances().subscribe((data) => {
+      if (data?.success) {
+        this.instanceList = data.instances || [];
+
+        const sub = this.statusService.getStatus().subscribe((data) => {
+          console.log('🚀 ~ status.component.ts:14', data);
+          this.serverStatus = data || undefined;
+
+          if (customEvent !== undefined) {
+            customEvent.target.complete();
           }
 
-          return of(undefined);
-        }),
-        map((result: HttpResponse<ServerStatus> | undefined) => {
-          return result?.body;
-        }),
-      )
-      .subscribe((data) => {
-        console.log('🚀 ~ status.component.ts:14', data);
-        this.serverStatus = data || undefined;
+          this.refreshing = false;
+          sub.unsubscribe();
+          instanceSub.unsubscribe();
 
-        if (customEvent !== undefined) {
-          customEvent.target.complete();
-        }
-      });
+          for (const instance of this.instanceList || []) {
+            for (const server of instance.servers) {
+              const mcSub = this.mcService
+                .getPlayers(server.ip)
+                .subscribe((data) => {
+                  console.log(
+                    ' 🚀 ~ status.component.ts:72 → playerList',
+                    data,
+                  );
 
-    this.mcService.getPlayers('gcpmc.codelog.co.za').subscribe((data) => {
-      console.log(' 🚀 ~ status.component.ts:72 → playerList', data);
-      this.playerList = data;
+                  if (data) {
+                    this.playerList.set(server.ip, data);
+                  }
+
+                  mcSub.unsubscribe();
+                });
+            }
+          }
+        });
+      } else {
+        console.error(
+          ' 🚀 status.component.ts → Failed to fetch server info',
+          data?.message,
+        );
+        instanceSub.unsubscribe();
+      }
     });
   }
 
@@ -82,25 +100,25 @@ export class StatusPageComponent implements OnInit {
         this.serverStatus = { success: true, message: '' };
       }
 
-      if (statusResponse?.body?.success) {
+      if (statusResponse?.success) {
         this.serverStatus.running = [];
-        statusResponse.body.running?.forEach(
+        statusResponse.running?.forEach(
           (i) => this.serverStatus?.running?.push(i),
         );
       }
     });
   }
 
-  isRunning(): boolean {
+  isRunning(id: string): boolean {
     return (
       (this.serverStatus?.running || []).findIndex(
-        (instance) => instance === 'i-0e090ccbade9245ee',
+        (instance) => instance === id,
       ) != -1
     );
   }
 
-  startServerClick(_event: any) {
-    this.statusService.startServer('i-0e090ccbade9245ee').subscribe((data) => {
+  startServerClick(id: string) {
+    this.statusService.startServer(id).subscribe((data) => {
       if (data?.success) {
         data?.started?.forEach((i) => this.serverStatus?.running?.push(i));
       } else {
@@ -110,8 +128,8 @@ export class StatusPageComponent implements OnInit {
     });
   }
 
-  stopServerClick(_event: any) {
-    this.statusService.stopServer('i-0e090ccbade9245ee').subscribe((data) => {
+  stopServerClick(id: string) {
+    this.statusService.stopServer(id).subscribe((data) => {
       if (data?.success) {
         if (this.serverStatus !== undefined) {
           const oldRunning = this.serverStatus.running;

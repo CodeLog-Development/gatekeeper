@@ -9,22 +9,53 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card>
+  <ion-card *ngIf="refreshing">
     <ion-card-header>
-      <ion-card-title>Server Status</ion-card-title>
-      <ion-card-subtitle>Ultimate Reloaded</ion-card-subtitle>
+      <ion-card-title><ion-skeleton-text [animated]="true"></ion-skeleton-text></ion-card-title>
+      <ion-card-subtitle><ion-skeleton-text [animated]="true"></ion-skeleton-text></ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <ion-chip (click)="setPopoverOpen(true)" color="success" *ngIf="isRunning()">Running</ion-chip>
-      <ion-chip disabled="true" color="danger" *ngIf="!isRunning()">Stopped</ion-chip>
+      <ion-skeleton-text [animated]="true"></ion-skeleton-text>
     </ion-card-content>
-
-    <ion-button [disabled]="isRunning()" fill="clear" (click)="startServerClick($event)">Start</ion-button>
-    <ion-button [disabled]="!isRunning()" fill="clear" color="danger" (click)="stopServerClick($event)">
-      Stop
-    </ion-button>
   </ion-card>
+
+  <div *ngIf="refreshing">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title><ion-skeleton-text [animated]="true"></ion-skeleton-text></ion-card-title>
+        <ion-card-subtitle><ion-skeleton-text [animated]="true"></ion-skeleton-text></ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="!refreshing">
+    <div *ngFor="let instance of instanceList">
+      <ion-card *ngFor="let server of instance.servers">
+        <ion-card-header>
+          <ion-card-title>({{ instance.name }}) {{ server.name }}</ion-card-title>
+          <ion-card-subtitle>{{ server.ip }}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-chip (click)="viewPlayerList(server.ip)" color="success"
+            *ngIf="isRunning(instance.id)">Running</ion-chip>
+          <ion-chip disabled="true" color="danger" *ngIf="!isRunning(instance.id)">Stopped</ion-chip>
+        </ion-card-content>
+
+        <ion-button [disabled]="isRunning(instance.id)" fill="clear"
+          (click)="startServerClick(instance.id)">Start</ion-button>
+        <ion-button [disabled]="!isRunning(instance.id)" fill="clear" color="danger"
+          (click)="stopServerClick(instance.id)">
+          Stop
+        </ion-button>
+      </ion-card>
+    </div>
+  </div>
 
   <ion-toast color="danger" [isOpen]="isToastOpen" [message]="toastMessage" [duration]="5000"
     (didDismiss)="setToastOpen(false)"></ion-toast>
@@ -39,7 +70,7 @@
             </ion-text>
           </ion-label>
         </ion-list-header>
-        <ion-item *ngFor="let player of playerList?.list" expand="true">
+        <ion-item *ngFor="let player of playerList?.get(popoverIp)?.list" expand="true">
           <ion-icon slot="start" name="checkmark-circle-outline" color="success"></ion-icon>
           <ion-text>
             <p style="font-family: monospace; text-wrap: nowrap; font-size: 16px">
