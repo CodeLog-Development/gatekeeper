@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/api",
         "tsConfig": "api/tsconfig.lib.json",
@@ -19,20 +21,32 @@
             "glob": "firebase-service-account.json",
             "input": "api",
             "output": "."
+          },
+          {
+            "glob": "freecurrencyapi.json",
+            "input": "api",
+            "output": "."
           }
         ]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["api/**/*.ts", "api/package.json"]
+        "lintFilePatterns": [
+          "api/**/*.ts",
+          "api/package.json"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "api/jest.config.ts",
         "passWithNoTests": true

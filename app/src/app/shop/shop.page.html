@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Shop</ion-title>
+    <ion-buttons slot="end">
+      <ion-select (ionChange)="currencyChanged()" label="Currency" [(ngModel)]="selectedCurrency">
+        <ion-select-option value="eur">EUR (€)</ion-select-option>
+        <ion-select-option value="zar">ZAR (R)</ion-select-option>
+      </ion-select>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="loaded">
+  <ion-list *ngFor="let bundle of bundles;">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title style="text-align: center">{{ bundle.amount }} Tokens</ion-card-title>
+      </ion-card-header>
+      <ion-card-content> </ion-card-content>
+      <ion-button fill="clear" expand="block" color="success" (click)="purchaseBundle(bundle.id)">
+        Buy {{ currencySymbol }}{{ bundle.price | number: '1.2-2' }}
+      </ion-button>
+    </ion-card>
+  </ion-list>
+</ion-content>
+
+<ion-content *ngIf="!loaded">
+  <ion-list>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-card-title>
+        <ion-card-subtitle>
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

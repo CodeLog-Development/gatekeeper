@@ -1,4 +1,9 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  NestMiddleware,
+} from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { NextFunction, Response } from 'express';
 import { UserService } from '../user/user.service';
@@ -15,16 +20,13 @@ export class AuthenticationMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const authCookie: string = req.cookies['auth'];
     if (!authCookie) {
-      res.status(401).end();
+      next();
     } else {
       this.userService
         .checkCookie(authCookie)
         .then((user: User | undefined) => {
           if (user?.verified) {
             req.user = user;
-            next();
-          } else {
-            res.status(401).end();
           }
         })
         .catch((e) => {
@@ -33,7 +35,8 @@ export class AuthenticationMiddleware implements NestMiddleware {
             e,
           );
           res.status(500).end();
-        });
+        })
+        .finally(() => next());
     }
   }
 }

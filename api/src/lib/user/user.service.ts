@@ -4,16 +4,12 @@ import { FirebaseService } from '../firebase/firebase.service';
 import * as argon2 from 'argon2';
 import { ModuleRef } from '@nestjs/core';
 import { randomBytes } from 'crypto';
-import {
-  CollectionReference,
-  DocumentData,
-  DocumentReference,
-} from 'firebase-admin/firestore';
+import { DocumentData, DocumentReference } from 'firebase-admin/firestore';
 
 @Injectable()
 export class UserService implements OnModuleInit {
   private firebaseService?: FirebaseService;
-  constructor(private moduleRef: ModuleRef) { }
+  constructor(private moduleRef: ModuleRef) {}
   onModuleInit() {
     this.firebaseService = this.moduleRef.get(FirebaseService, {
       strict: false,
@@ -87,6 +83,11 @@ export class UserService implements OnModuleInit {
 
   async createUser(newUser: NewUser): Promise<Cookie | undefined> {
     const { username, email, password } = newUser;
+
+    if (!username || !email || !password || password.length < 8) {
+      return undefined;
+    }
+
     const user: User = {
       username,
       email,
