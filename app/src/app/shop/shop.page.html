@@ -17,7 +17,9 @@
         <ion-card-title style="text-align: center">{{ bundle.amount }} Tokens</ion-card-title>
       </ion-card-header>
       <ion-card-content> </ion-card-content>
-      <ion-button fill="clear" expand="block" color="success" (click)="purchaseBundle(bundle.id)">
+      <ion-button angular4-paystack [key]="publicKey" [ref]="reference" [email]="'mail@example.com'" [amount]="50000"
+        currency="ZAR" (paymentInit)="paymentInit" (onClose)="paymentCancel()" (callback)="paymentDone($event)"
+        fill="clear" expand="block" color="success">
         Buy {{ currencySymbol }}{{ bundle.price | number: '1.2-2' }}
       </ion-button>
     </ion-card>

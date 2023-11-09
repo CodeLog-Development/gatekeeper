@@ -3,6 +3,7 @@ import { ShopService } from './shop.service';
 import { Subscription } from 'rxjs';
 import { TokenBundle } from '@gatekeeper/api';
 import { ActionSheetController } from '@ionic/angular';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'gatekeeper-shop-page',
@@ -14,6 +15,8 @@ export class ShopPageComponent implements OnInit, OnDestroy {
   selectedCurrency = 'zar';
   currencySymbol = 'R';
   bundles: { id: string; amount: number; price: number }[] = [];
+  publicKey = environment.paystackPublicKey;
+  reference = '';
 
   private bundlesSubscription?: Subscription;
   private exchangeRateSubscription?: Subscription;
@@ -22,7 +25,7 @@ export class ShopPageComponent implements OnInit, OnDestroy {
   constructor(
     private shopService: ShopService,
     private actionSheetController: ActionSheetController,
-  ) {}
+  ) { }
 
   ngOnDestroy(): void {
     this.bundlesSubscription?.unsubscribe();
@@ -30,6 +33,7 @@ export class ShopPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
     this.bundlesSubscription = this.shopService
       .getTokenBundles()
       .subscribe((bundles) => this.handleTokenBundles(bundles));
@@ -114,5 +118,17 @@ export class ShopPageComponent implements OnInit, OnDestroy {
     if (result.data?.action === 'buy') {
       console.log(' 🚀 ~ shop.page.ts → User wants to buy bundle with id', id);
     }
+  }
+
+  paymentInit() {
+    console.log('init');
+  }
+
+  paymentCancel() {
+    console.log('cancel');
+  }
+
+  paymentDone(event: unknown) {
+    console.log('done', event);
   }
 }

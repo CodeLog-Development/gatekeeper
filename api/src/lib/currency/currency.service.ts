@@ -7,15 +7,14 @@ export class CurrencyService {
   constructor(private configService: ConfigService) { }
 
   async getExchangeRates(): Promise<CurrencyApiResponse | undefined> {
-    const apiKey: { apiKey: string } | undefined =
-      this.configService.get('currencyApiKey');
+    const apiKey: string | undefined = this.configService.get('currencyApiKey');
     if (!apiKey) {
       return undefined;
     }
 
     try {
       const res = await fetch(
-        `https://api.freecurrencyapi.com/v1/latest?apikey=${apiKey.apiKey}&base_currency=ZAR&currencies=EUR`,
+        `https://api.freecurrencyapi.com/v1/latest?apikey=${apiKey}&base_currency=ZAR&currencies=EUR`,
       );
       const json: CurrencyApiResponse = await res.json();
       return json;

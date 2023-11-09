@@ -29,6 +29,7 @@
     "@nxtend/firebase": "12.1.0",
     "@nxtend/ionic-angular": "13.1.0",
     "@types/cookie-parser": "1.4.4",
+    "angular4-paystack": "^3.1.2",
     "argon2": "^0.31.1",
     "cookie-parser": "1.4.6",
     "copyfiles": "2.4.1",

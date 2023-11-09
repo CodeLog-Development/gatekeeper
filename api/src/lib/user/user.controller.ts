@@ -5,7 +5,6 @@ import {
   Res,
   Patch,
   Get,
-  Param,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -29,7 +28,7 @@ export const EMAIL_REGEX =
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Get('info')
   @UseGuards(AuthGuard)

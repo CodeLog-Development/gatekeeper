@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module';
 import { CommonModule } from '@angular/common';
 import { StatusPageModule } from './status/status.module';
 import { NotificationService } from './notification.service';
+import { environment } from '../environments/environment';
+import { Angular4PaystackModule } from 'angular4-paystack';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +24,7 @@ import { NotificationService } from './notification.service';
     StatusPageModule,
     AuthModule,
     IonicModule.forRoot(),
+    Angular4PaystackModule.forRoot(environment.paystackPublicKey),
   ],
   providers: [
     NotificationService,

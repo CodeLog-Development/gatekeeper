@@ -1,12 +1,11 @@
-import * as fs from 'fs';
+import { defineSecret } from 'firebase-functions/params';
+
+export const firebaseServiceAccount = defineSecret('FIREBASE_SERVICE_ACCOUNT');
+export const freecurrencyApiKey = defineSecret('FREECURRENCY_API_KEY');
 
 export default () => {
   return {
-    serviceAccount: JSON.parse(
-      fs.readFileSync('firebase-service-account.json').toString(),
-    ),
-    currencyApiKey: JSON.parse(
-      fs.readFileSync('freecurrencyapi.json').toString(),
-    ),
+    serviceAccount: JSON.parse(firebaseServiceAccount.value()),
+    currencyApiKey: freecurrencyApiKey.value(),
   };
 };

@@ -4,6 +4,10 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import * as functions from 'firebase-functions';
 import * as cookieParser from 'cookie-parser';
+import {
+  firebaseServiceAccount,
+  freecurrencyApiKey,
+} from './lib/config/configuration';
 
 export * from './lib/index';
 
@@ -29,7 +33,9 @@ const createFunction = async (
 
 export const api = new functions.FunctionBuilder({
   regions: ['europe-west2'],
-}).https.onRequest(async (request, response) => {
-  await createFunction(expressServer);
-  expressServer(request, response);
-});
+})
+  .runWith({ secrets: [firebaseServiceAccount, freecurrencyApiKey] })
+  .https.onRequest(async (request, response) => {
+    await createFunction(expressServer);
+    expressServer(request, response);
+  });
