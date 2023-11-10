@@ -3,6 +3,7 @@ import {
   Module,
   NestModule,
   RequestMethod,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ServerModule } from './server/server.module';
 import { FirebaseModule } from './firebase/firebase.module';
@@ -14,6 +15,7 @@ import { LoggerMiddleware } from './logger/logger.middleware';
 import { CurrencyModule } from './currency/currency.module';
 import { TokenModule } from './token/token.module';
 import { AuthenticationMiddleware } from './auth/auth.middleware';
+import { StoreModule } from './store/store.module';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { AuthenticationMiddleware } from './auth/auth.middleware';
     UserModule,
     CurrencyModule,
     TokenModule,
+    StoreModule,
   ],
 })
 export class ApiModule implements NestModule {

@@ -7,7 +7,9 @@ import * as cookieParser from 'cookie-parser';
 import {
   firebaseServiceAccount,
   freecurrencyApiKey,
+  paystackSecret,
 } from './lib/config/configuration';
+import { ValidationPipe } from '@nestjs/common';
 
 export * from './lib/index';
 
@@ -28,13 +30,16 @@ const createFunction = async (
     },
   );
   app.use(cookieParser());
+  app.useGlobalPipes(new ValidationPipe());
   await app.init();
 };
 
 export const api = new functions.FunctionBuilder({
   regions: ['europe-west2'],
 })
-  .runWith({ secrets: [firebaseServiceAccount, freecurrencyApiKey] })
+  .runWith({
+    secrets: [firebaseServiceAccount, freecurrencyApiKey, paystackSecret],
+  })
   .https.onRequest(async (request, response) => {
     await createFunction(expressServer);
     expressServer(request, response);
