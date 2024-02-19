@@ -3076,10 +3076,10 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@nestjs/common@^10.0.2":
-  version "10.2.6"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.2.6.tgz#819b9b18381f4cb2d4aa5da7e3edce41e99bee14"
-  integrity sha512-ma8R7n+FXsWM4XF9QXjjrsRceyRzid/xKmNKVOa/sTJntkVG8lL71BHBEfjtFvO6EJUqjs/15LbDc0iaN5nCwA==
+"@nestjs/common@^10.3.3":
+  version "10.3.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.3.3.tgz#ba20f756dbed62f5fe29737c42384ad41156c9e9"
+  integrity sha512-LAkTe8/CF0uNWM0ecuDwUNTHCi1lVSITmmR4FQ6Ftz1E7ujQCnJ5pMRzd8JRN14vdBkxZZ8VbVF0BDUKoKNxMQ==
   dependencies:
     uid "2.0.2"
     iterare "1.2.1"

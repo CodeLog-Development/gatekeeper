@@ -17,7 +17,7 @@
     "@capacitor/core": "5.4.2",
     "@capacitor/push-notifications": "^5.1.0",
     "@ionic/angular": "7.4.2",
-    "@nestjs/common": "^10.0.2",
+    "@nestjs/common": "^10.3.3",
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.2.7",
     "@nestjs/platform-express": "^10.0.2",
