@@ -678,13 +678,6 @@
     multer "1.4.4-lts.1"
     tslib "2.6.2"
 
-"@nestjs/testing@10.2.7":
-  version "10.2.7"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-10.2.7.tgz#50408ccb4c809d216a12d60ac7932fd6ad7fedf4"
-  integrity sha512-d2SIqiJIf/7NSILeNNWSdRvTTpHSouGgisGHwf5PVDC7z4/yXZw/wPO9eJhegnxFlqk6n2LW4QBTmMzbqjAfHA==
-  dependencies:
-    tslib "2.6.2"
-
 "@nuxtjs/opencollective@0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@nuxtjs/opencollective/-/opencollective-0.3.2.tgz#620ce1044f7ac77185e825e1936115bb38e2681c"
@@ -2209,9 +2202,9 @@ iterare@1.2.1:
   integrity sha512-RKYVTCjAnRthyJes037NX/IiqeidgN1xc3j1RjFfECFp28A1GVwK9nA+i0rJPaHqSZwygLzRnFlzUuHFoWWy+Q==
 
 jose@^4.10.4:
-  version "4.14.6"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-4.14.6.tgz#94dca1d04a0ad8c6bff0998cdb51220d473cc3af"
-  integrity sha512-EqJPEUlZD0/CSUMubKtMaYUOtWe91tZXTWMJZoKSbLk+KtdhNdcvppH8lA9XwVu2V4Ailvsj0GBZJ2ZwDjfesQ==
+  version "4.15.5"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.15.5.tgz#6475d0f467ecd3c630a1b5dadd2735a7288df706"
+  integrity sha512-jc7BFxgKPKi94uOvEmzlSWFFe2+vASyXaKUpdQKatWAESU2MWjDfFf0fdfc83CDKcA5QecabZeNLyfhe3yKNkg==
 
 js2xmlparser@^4.0.2:
   version "4.0.2"
